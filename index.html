@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minar Go - Admin Portal</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <style>
+        :root { 
+            --p: #4b0082; /* Deep violet for header */
+            --g: #27ae60; 
+            --w: #ffffff; 
+            --r: #e74c3c; 
+            --b: #1877F2; /* Modern blue for login button and background */
+            --light-g: #f0f2f5;
+        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--light-g); margin: 0; padding: 0; }
+        
+        /* * --- NEW LOGIN SCREEN DESIGN ---
+         * Based on the user provided image.
+         */
+        #login-screen { 
+            position: fixed; 
+            width: 100%; 
+            height: 100%; 
+            background: var(--b); /* Blue background */
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 1000; 
+            flex-direction: column;
+        }
+
+        /* The white card container */
+        .login-card { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 20px; 
+            width: 85%; 
+            max-width: 380px; 
+            text-align: left; /* Left align text in card */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Subtle shadow */
+        }
+
+        /* Headings */
+        .login-card h1 { font-size: 28px; margin: 0 0 10px 0; color: #333; font-weight: bold; }
+        .login-card p { font-size: 15px; color: #666; margin: 0 0 30px 0; }
+
+        /* Input fields with icons */
+        .input-group { position: relative; margin-bottom: 20px; }
+        .input-group input { 
+            width: 100%; 
+            padding: 15px 15px 15px 50px; /* Padding for icon */
+            border: 1.5px solid #ddd; 
+            border-radius: 10px; 
+            box-sizing: border-box; 
+            font-size: 15px; 
+            background-color: #fcfcfc;
+        }
+        .input-group input:focus { border-color: var(--b); outline: none; }
+        
+        /* Unicode icons for email/password (approximate look) */
+        .input-icon { position: absolute; left: 15px; top: 15px; font-size: 20px; color: #aaa; }
+
+        /* Login button */
+        .btn-login { 
+            width: 100%; 
+            padding: 16px; 
+            border: none; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            background: var(--b); /* Modern blue */
+            color: white; 
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .btn-login:hover { background: #1565C0; }
+
+        /* Forgot password link */
+        .forgot-pass { display: block; text-align: left; margin-top: 15px; font-size: 14px; color: #777; text-decoration: none; }
+        .forgot-pass:hover { color: var(--b); }
+
+        /* Illustrative abstract shapes at the bottom right corner (simulated) */
+        #login-screen::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+            z-index: -1;
+        }
+        #login-screen::before {
+            content: "";
+            position: absolute;
+            bottom: 20px;
+            right: 120px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.1);
+            z-index: -1;
+        }
+
+        /* * --- EXISTING APP DESIGN ---
+         * Unchanged except for a few color tweaks to match the new look.
+         */
+        .header { background: var(--p); color: white; padding: 35px 20px; text-align: center; border-radius: 0 0 35px 35px; }
+        
+        .logo-area { width: 90px; height: 90px; background: white; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; border: 3px solid var(--g); overflow: hidden; position: relative; cursor: pointer; }
+        .logo-area img { width: 100%; height: 100%; object-fit: cover; }
+        .logo-area input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+        .container { padding: 15px; max-width: 500px; margin: auto; }
+        .notice-board { background: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; border-radius: 12px; margin-bottom: 20px; color: #856404; font-size: 14px; }
+        .total-box { background: var(--g); color: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
+        .card { background: var(--w); padding: 20px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+
+        label { display: block; margin-bottom: 5px; font-size: 13px; color: #555; font-weight: bold; }
+        select, input.app-input { width: 100%; padding: 12px; border: 1.5px solid #ddd; border-radius: 10px; box-sizing: border-box; margin-bottom: 12px; font-size: 15px; }
+        
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; text-decoration: none; display: block; text-align: center; }
+        .btn-p { background: var(--p); color: white; }
+        .btn-g { background: var(--g); color: white; }
+        .btn-link { background: #007bff; color: white; margin-bottom: 15px; font-size: 14px; }
+        .btn-logout { background: var(--r); color: white; margin-top: 20px; margin-bottom: 30px; }
+
+        .data-table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; font-size: 13px; }
+        .data-table th { background: var(--p); color: white; padding: 10px; text-align: left; }
+        .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+<div id="login-screen">
+    <div class="login-card">
+        <h1>Hello!</h1>
+        <p>Sign Up to Get Started</p>
+        
+        <div class="input-group">
+            <span class="input-icon">🔐</span> <input type="password" id="pinInput" placeholder="Password" style="text-align:left;">
+        </div>
+
+        <button class="btn-login" onclick="checkLogin()">Login</button>
+        
+        <a href="#" class="forgot-pass" onclick="alert('আপনার পিন ভুলে গেলে অ্যাডমিনের সাথে যোগাযোগ করুন।')">Forgot Password?</a>
+    </div>
+</div>
+
+<div id="main-app" style="display:none;">
+    <div class="header">
+        <div class="logo-area" title="গ্যালারি থেকে লোগো দিন">
+            <input type="file" accept="image/*" id="logoUpload" onchange="previewLogo(this)">
+            <img id="displayLogo" src="https://via.placeholder.com/100" alt="Logo">
+        </div>
+        <h2 style="margin:0;">মিনার গো ফাউন্ডেশন</h2>
+        <p style="font-size:12px; opacity:0.8;">অ্যাডমিন কন্ট্রোল প্যানেল</p>
+    </div>
+
+    <div class="container">
+        <a href="https://Minargooffical-cat-bad410.netlify.app" target="_blank" class="btn btn-link">🌐 লাইভ ওয়েবসাইট দেখুন</a>
+
+        <div class="notice-board">📢 <strong>ঘোষণা:</strong> <span id="currentNotice">লোড হচ্ছে...</span></div>
+        <div class="total-box"><p style="margin:0; font-size:14px;">সর্বমোট জমা</p><h2 id="totalDisplay">৳০</h2></div>
+
+        <div class="card">
+            <label>সদস্যের নাম (১৫ জন)</label>
+            <select id="mName">
+                <option>Mr Dulal</option><option>Mr Omar Faruk</option><option>Mr Sulaiman badshah</option>
+                <option>Mr Abdul qayum</option><option>Mr Mohammed Jamshed</option><option>Mr Milad</option>
+                <option>Mr Ala uddin</option><option>Mr Shahid</option><option>Mr Shohag</option>
+                <option>Mr Abul Hussain</option><option>Mr Sakib</option><option>Mr Ronnie</option>
+                <option>Mr Jonye</option><option>Mr Aqib</option><option>Mr Salauddin</option>
+            </select>
+
+            <label>জমার খাত:</label>
+            <select id="mCategory">
+                <option>প্রতি মাসের জমা</option><option>যাকাত</option><option>ফিতরা</option><option>বাড়ির কাজ</option>
+            </select>
+
+            <label>অবস্থান/লোকেশন:</label>
+            <input type="text" id="mLocation" class="app-input" placeholder="যেমন: সৌদি আরব বা বাড়ির নাম">
+
+            <label>টাকার পরিমাণ:</label>
+            <input type="number" id="mAmt" class="app-input" value="5000">
+            
+            <label>তারিখ নির্বাচন করুন:</label>
+            <input type="date" id="mDate" class="app-input">
+            
+            <button class="btn btn-p" onclick="saveToFirebase()">অনলাইনে সেভ করুন</button>
+        </div>
+
+        <div class="card" style="border: 1px dashed var(--p);">
+            <label>📢 নতুন ঘোষণা:</label>
+            <input type="text" id="newNotice" class="app-input" placeholder="ঘোষণা লিখুন">
+            <label>🔑 নতুন পিন সেট করুন:</label>
+            <input type="password" id="newPin" class="app-input" placeholder="৪ সংখ্যার পিন">
+            <button class="btn btn-g" onclick="updateSettings()">আপডেট করুন</button>
+        </div>
+
+        <h3 style="color:var(--p);">সাম্প্রতিক জমা তালিকা:</h3>
+        <table class="data-table">
+            <thead><tr><th>সদস্য ও বিস্তারিত</th><th>টাকা</th><th>মুছুন</th></tr></thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+
+        <button class="btn btn-logout" onclick="logOut()">লগ আউট করুন</button>
+    </div>
+</div>
+
+<script>
+    // --- FIREBASE CONFIGURATION (UNCHANGED) ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyB_xWr5iG6PcxjaNQmPoLLQKCjd64u8Cz0",
+        authDomain: "minar-go-officeial.firebaseapp.com",
+        databaseURL: "https://minar-go-officeial-default-rtdb.firebaseio.com",
+        projectId: "minar-go-officeial",
+        storageBucket: "minar-go-officeial.firebasestorage.app",
+        messagingSenderId: "134678934111",
+        appId: "1:134678934111:web:4dbb017794b242269e61ea"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // --- CHECK LOGIN FUNCTION (MODIFIED TO USE NEW INPUT ID) ---
+    function checkLogin() {
+        database.ref('admin_settings/pin').once('value', (snap) => {
+            let savedPin = snap.val() || "1234";
+            if(document.getElementById('pinInput').value === savedPin) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+                document.getElementById('pinInput').value = ""; // পিন মুছে ফেলা
+            } else { alert("ভুল পিন!"); }
+        });
+    }
+
+    // --- EXISTING APP FUNCTIONS (UNCHANGED) ---
+    function logOut() {
+        if(confirm("আপনি কি নিশ্চিত যে লগ আউট করতে চান?")) {
+            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+        }
+    }
+
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('mDate').value = today;
+
+    function previewLogo(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Image = e.target.result;
+                document.getElementById('displayLogo').src = base64Image;
+                database.ref('admin_settings/logo_data').set(base64Image);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function updateSettings() {
+        const notice = document.getElementById('newNotice').value;
+        const pin = document.getElementById('newPin').value;
+        if(notice) database.ref('notice/').set({ text: notice });
+        if(pin && pin.length >= 4) database.ref('admin_settings/pin').set(pin);
+        alert("আপডেট হয়েছে!");
+    }
+
+    database.ref('admin_settings/logo_data').on('value', (snap) => {
+        if(snap.val()) document.getElementById('displayLogo').src = snap.val();
+    });
+
+    database.ref('notice/').on('value', (snap) => {
+        if(snap.val()) document.getElementById('currentNotice').innerText = snap.val().text;
+    });
+
+    function saveToFirebase() {
+        const name = document.getElementById('mName').value;
+        const category = document.getElementById('mCategory').value;
+        const location = document.getElementById('mLocation').value || "উল্লেখ নেই";
+        const amt = document.getElementById('mAmt').value;
+        const dateRaw = document.getElementById('mDate').value;
+        const dateParts = dateRaw.split('-');
+        const date = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`; 
+
+        database.ref('transactions/').push({ name, category, location, amt, date });
+        alert("সফলভাবে সেভ হয়েছে!");
+    }
+
+    database.ref('transactions/').on('value', (snapshot) => {
+        const tableBody = document.getElementById('tableBody');
+        const totalDisplay = document.getElementById('totalDisplay');
+        tableBody.innerHTML = "";
+        let total = 0;
+        snapshot.forEach((child) => {
+            const data = child.val();
+            total += parseFloat(data.amt);
+            tableBody.innerHTML += `<tr>
+                <td><strong>${data.name}</strong><br><small>${data.category} | ${data.location}<br>${data.date}</small></td>
+                <td>৳${data.amt}</td>
+                <td><span style="color:red; cursor:pointer;" onclick="deleteItem('${child.key}')">🗑️</span></td>
+            </tr>`;
+        });
+        totalDisplay.innerText = "৳" + total.toLocaleString('bn-BD');
+    });
+
+    function deleteItem(key) {
+        if(confirm("মুছে ফেলবেন?")) database.ref('transactions/' + key).remove();
+    }
+</script>
+</body>
+</html>
