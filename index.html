@@ -7,7 +7,6 @@
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         :root { 
@@ -25,6 +24,20 @@
             margin: 0; padding: 0; width: 100%; height: 100%; 
             background: radial-gradient(circle at top, #1e0b36, #0a0514 100%); 
             font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
+        }
+
+        /* --- ব্রাউজার পিডিএফ আপডেট: শুধুমাত্র সামারি প্রিন্ট করার জন্য --- */
+        @media print {
+            body * { visibility: hidden; background: white !important; }
+            #pdf-content, #pdf-content * { visibility: visible; }
+            #pdf-content { 
+                position: absolute; left: 0; top: 0; width: 100%; 
+                background: white !important; color: black !important; padding: 20px;
+            }
+            .summary-header { background: #6a0dad !important; -webkit-print-color-adjust: exact; color: white !important; display: flex !important; }
+            .table-row { border-bottom: 1px solid #ddd !important; display: flex !important; color: black !important; }
+            .table-row strong { color: black !important; }
+            .no-print, [onclick*="remove"] { display: none !important; } /* মুছুন বাটন পিডিএফ এ আসবে না */
         }
 
         .brand-container { perspective: 1000px; margin-bottom: 40px; text-align: center; }
@@ -73,7 +86,6 @@
         .gold-btn { width: 100%; padding: 16px; border: none; border-radius: 50px; background: var(--gold-gradient); color: #000; font-weight: bold; cursor: pointer; }
         .member-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #33224d; font-size: 14px; }
 
-        /* --- সামারি টেবিল ডিজাইন আপডেট (সাদা ব্যাকগ্রাউন্ড) --- */
         .summary-container {
             background: #ffffff; border-radius: 20px; overflow: hidden; color: #333;
         }
@@ -157,21 +169,19 @@
              <label style="color:var(--gold-text); font-weight:bold;">📢 ঘোষণা আপডেট:</label><input type="text" id="newNotice" class="custom-field">
              <label style="color:var(--gold-text); font-weight:bold;">🔑 পিন পরিবর্তন:</label><input type="password" id="newPin" class="custom-field">
              <button class="gold-btn" onclick="updateSettings()">UPDATE SETTINGS</button>
-             <button class="gold-btn" style="background:#555; margin-top:10px; color: white;" onclick="downloadPDF()">📄 PDF SUMMARY</button>
+             
+             <button class="gold-btn" style="background:#555; margin-top:10px; color: white;" onclick="window.print()">📄 PDF SUMMARY (BROWSER)</button>
         </div>
 
         <h3 style="color: #ffffff; text-align: center; margin-bottom: 15px;">সাম্প্রতিক জমা তালিকা:</h3>
-        <div class="summary-container">
+        
+        <div id="pdf-content" class="summary-container">
             <div class="summary-header">
                 <span>সদস্য ও খাত</span>
                 <span>টাকা</span>
-                <span>মুছুন</span>
+                <span class="no-print">মুছুন</span>
             </div>
-
-            <div id="pdf-content">
-                <div id="tableBody">
-                    </div>
-            </div>
+            <div id="tableBody"></div>
         </div>
         
         <div style="padding: 20px 0;">
@@ -258,7 +268,7 @@
                         <small>${d.category} | ${d.date}</small>
                     </div>
                     <div style="flex: 1; text-align: right; color:#333; font-weight:bold; margin-right:15px;">৳${d.amt}</div>
-                    <div style="width: 45px; text-align: right;">
+                    <div class="no-print" style="width: 45px; text-align: right;">
                         <span onclick="database.ref('transactions/${child.key}').remove()" style="cursor:pointer; color:red; font-size:18px;">🗑️</span>
                     </div>
                 </div>`;
@@ -284,7 +294,6 @@
     database.ref('admin_settings/logo_data').on('value', snap => { if(snap.val()) document.getElementById('displayLogo').src = snap.val(); });
     database.ref('notice/').on('value', snap => { if(snap.val()) document.getElementById('currentNotice').innerText = snap.val().text; });
     document.getElementById('mDate').value = new Date().toISOString().split('T')[0];
-    function downloadPDF() { html2pdf().from(document.getElementById('pdf-content')).save('Foundation_Report.pdf'); }
     function logOut() { location.reload(); }
 </script>
 </body>
