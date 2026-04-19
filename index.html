@@ -26,7 +26,7 @@
             font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
         }
 
-        /* --- ব্রাউজার পিডিএফ আপডেট: শুধুমাত্র সামারি প্রিন্ট করার জন্য --- */
+        /* --- ব্রাউজার পিডিএফ আপডেট --- */
         @media print {
             body * { visibility: hidden; background: white !important; }
             #pdf-content, #pdf-content * { visibility: visible; }
@@ -37,8 +37,15 @@
             .summary-header { background: #6a0dad !important; -webkit-print-color-adjust: exact; color: white !important; display: flex !important; }
             .table-row { border-bottom: 1px solid #ddd !important; display: flex !important; color: black !important; }
             .table-row strong { color: black !important; }
-            .no-print, [onclick*="remove"] { display: none !important; } /* মুছুন বাটন পিডিএফ এ আসবে না */
+            .no-print, [onclick*="remove"] { display: none !important; }
+            
+            /* সামারিতে ফাউন্ডেশনের নাম ও টোটাল দেখানোর জন্য */
+            .print-only-title { display: block !important; text-align: center; color: #000; margin-bottom: 20px; }
+            .total-summary-row { display: flex !important; background: #f9f9f9 !important; font-weight: bold; border-top: 2px solid #000; }
         }
+
+        .print-only-title { display: none; }
+        .total-summary-row { display: flex; justify-content: space-between; padding: 15px 10px; background: #f1f1f1; color: #000; font-weight: bold; font-size: 16px; border-radius: 0 0 20px 20px; }
 
         .brand-container { perspective: 1000px; margin-bottom: 40px; text-align: center; }
         .artistic-name { font-size: 38px; font-weight: 900; text-transform: uppercase; display: inline-block; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(191, 149, 63, 0.6)); letter-spacing: -1px; transform: rotateX(10deg); line-height: 1; position: relative; }
@@ -176,12 +183,23 @@
         <h3 style="color: #ffffff; text-align: center; margin-bottom: 15px;">সাম্প্রতিক জমা তালিকা:</h3>
         
         <div id="pdf-content" class="summary-container">
+            <div class="print-only-title">
+                <h2 style="margin:0;">MINAR GO EXPATRIATE</h2>
+                <p style="margin:0;">Development Foundation</p>
+                <hr>
+            </div>
+
             <div class="summary-header">
                 <span>সদস্য ও খাত</span>
                 <span>টাকা</span>
                 <span class="no-print">মুছুন</span>
             </div>
             <div id="tableBody"></div>
+
+            <div class="total-summary-row">
+                <span style="flex: 2;">সর্বমোট জমা (TOTAL):</span>
+                <span id="sumTotalPrint" style="flex: 1; text-align: right; margin-right: 60px;">৳০</span>
+            </div>
         </div>
         
         <div style="padding: 20px 0;">
@@ -274,6 +292,7 @@
                 </div>`;
         });
         document.getElementById('totalDisplay').innerText = "৳" + total.toLocaleString('bn-BD');
+        document.getElementById('sumTotalPrint').innerText = "৳" + total.toLocaleString('bn-BD');
     });
 
     function updateSettings() {
