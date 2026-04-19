@@ -26,6 +26,20 @@
             font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
         }
 
+        /* কম্পিউটার ব্রাউজারের জন্য ডেস্কটপ মোড (Desktop/Tab View) */
+        @media (min-width: 768px) {
+            #main-app { 
+                max-width: 1000px !important; 
+                display: grid !important; 
+                grid-template-columns: 1fr 1fr; 
+                gap: 20px; 
+                padding: 40px !important;
+            }
+            .app-header-new, .islamic-info, .today-info-bar, .total-fund-box, #noticeDisplay, #pdf-content, div[style*="padding: 20px 0"] { 
+                grid-column: span 2; 
+            }
+        }
+
         @media print {
             body * { visibility: hidden; background: white !important; }
             #pdf-content, #pdf-content * { visibility: visible; }
@@ -33,15 +47,33 @@
                 position: absolute; left: 0; top: 0; width: 100%; 
                 background: white !important; color: black !important; padding: 20px;
             }
-            .summary-header { background: #6a0dad !important; -webkit-print-color-adjust: exact; color: white !important; display: flex !important; width: 100%; }
+            /* বেগুনি দাগ এবং ভিতরের লেখা ফিক্স */
+            .summary-header { 
+                background: #6a0dad !important; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact;
+                color: white !important; 
+                display: flex !important; 
+                flex-direction: row !important;
+                width: 100% !important; 
+            }
+            .header-col-1, .header-col-2, .header-col-3 { color: white !important; opacity: 1 !important; visibility: visible !important; }
             .table-row { border-bottom: 1px solid #ddd !important; display: flex !important; color: black !important; }
             .no-print, [onclick*="remove"] { display: none !important; }
-            .print-only-title { display: block !important; text-align: center; color: #000; margin-bottom: 20px; }
             .total-summary-row { display: flex !important; background: #f9f9f9 !important; font-weight: bold; border-top: 2px solid #000; color: black !important; }
         }
 
-        .print-only-title { display: none; }
-        .total-summary-row { display: flex; justify-content: space-between; padding: 15px 10px; background: #f1f1f1; color: #000; font-weight: bold; font-size: 16px; border-radius: 0 0 20px 20px; }
+        .summary-container { background: #ffffff; border-radius: 20px; overflow: hidden; color: #333; margin-top: 10px; padding: 20px; }
+        
+        /* বেগুনি বারের ডিজাইন ও কলাম সেটিং */
+        .summary-header {
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 10px; background: #6a0dad; font-weight: bold; color: #ffffff; 
+            font-size: 14px; border-radius: 10px 10px 0 0;
+        }
+        .header-col-1 { flex: 2; text-align: left; }
+        .header-col-2 { flex: 1; text-align: right; margin-right: 20px; }
+        .header-col-3 { width: 50px; text-align: right; }
 
         .brand-container { perspective: 1000px; margin-bottom: 40px; text-align: center; }
         .artistic-name { font-size: 38px; font-weight: 900; text-transform: uppercase; display: inline-block; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(191, 149, 63, 0.6)); letter-spacing: -1px; transform: rotateX(10deg); line-height: 1; position: relative; }
@@ -65,18 +97,6 @@
         select, .custom-field { width: 100%; padding: 14px; background: #0f081a; border: 1px solid #33224d; border-radius: 12px; color: white; margin-bottom: 12px; box-sizing: border-box; outline: none; }
         .gold-btn { width: 100%; padding: 16px; border: none; border-radius: 50px; background: var(--gold-gradient); color: #000; font-weight: bold; cursor: pointer; }
         .member-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #33224d; font-size: 14px; }
-
-        .summary-container { background: #ffffff; border-radius: 20px; overflow: hidden; color: #333; margin-top: 10px; padding: 20px; }
-        
-        /* পিডিএফ ভিউতে কলাম সঠিক করার জন্য আপডেট */
-        .summary-header {
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 10px; background: #6a0dad; font-weight: bold; color: #ffffff; 
-            font-size: 14px; border-radius: 10px 10px 0 0;
-        }
-        .header-col-1 { flex: 2; text-align: left; }
-        .header-col-2 { flex: 1; text-align: right; margin-right: 20px; }
-        .header-col-3 { width: 45px; text-align: right; }
         
         .table-row {
             display: flex; justify-content: space-between; align-items: center;
@@ -84,6 +104,7 @@
         }
         .table-row strong { color: #000; }
         .table-row small { color: #666; }
+        .total-summary-row { display: flex; justify-content: space-between; padding: 15px 10px; background: #f1f1f1; color: #000; font-weight: bold; font-size: 16px; border-radius: 0 0 20px 20px; }
     </style>
 </head>
 <body>
@@ -173,8 +194,8 @@
             </div>
         </div>
         
-        <div style="padding: 20px 0;">
-            <button onclick="logOut()" class="gold-btn" style="background: #333; color: white;">LOG OUT</button>
+        <div style="padding: 20px 0; text-align: center;">
+            <button onclick="logOut()" class="gold-btn" style="background: #333; color: white; width: auto; padding: 15px 40px;">LOG OUT</button>
         </div>
     </div>
 </div>
@@ -257,7 +278,7 @@
                         <small>${d.category} | ${d.date}</small>
                     </div>
                     <div style="flex: 1; text-align: right; color:#333; font-weight:bold; margin-right:20px;">৳${d.amt}</div>
-                    <div class="no-print" style="width: 45px; text-align: right;">
+                    <div class="no-print" style="width: 50px; text-align: right;">
                         <span onclick="database.ref('transactions/${child.key}').remove()" style="cursor:pointer; color:red; font-size:18px;">🗑️</span>
                     </div>
                 </div>`;
