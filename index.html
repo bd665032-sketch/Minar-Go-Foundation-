@@ -11,120 +11,72 @@
     
     <style>
         :root { 
-            --black-bg: #050505; 
-            --card-dark: #141414;
+            /* নতুন থিম কালার: ডিপ বেগুনি এবং গোল্ডেন */
+            --black-bg: #0a0514; /* খুব গাঢ় বেগুনি মেশানো কালো */
+            --card-dark: #1a102b; /* ডিপ বেগুনি কার্ড */
             --gold-primary: #bf953f;
             --gold-light: #fcf6ba;
             --gold-gradient: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             --gold-text: #f39c12;
+            --purple-glow: rgba(106, 13, 173, 0.2);
             --white: #ffffff; 
         }
         
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
-            background: var(--black-bg); font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
+            /* ব্যাকগ্রাউন্ডে হালকা বেগুনি আভা (Glow) যোগ করা হয়েছে */
+            background: radial-gradient(circle at top, #1e0b36, #0a0514 100%); 
+            font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
         }
 
-        /* --- রাজকীয় ফাউন্ডেশন নেম ডিজাইন (ইউনিক আর্ট) --- */
-        .brand-container {
-            perspective: 1000px;
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .artistic-name {
-            font-size: 38px;
-            font-weight: 900;
-            text-transform: uppercase;
-            display: inline-block;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(191, 149, 63, 0.6));
-            letter-spacing: -1px;
-            transform: rotateX(10deg);
-            line-height: 1;
-            position: relative;
-        }
-
-        /* অক্ষরের নিচে একটি গোল্ডেন আভা */
-        .artistic-name::after {
-            content: 'MINAR GO EXPATRIATE';
-            position: absolute;
-            left: 0; top: 2px;
-            z-index: -1;
-            filter: blur(15px);
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            opacity: 0.5;
-        }
-
-        .artistic-sub {
-            display: block;
-            font-size: 11px;
-            letter-spacing: 8px;
-            color: #aaa;
-            margin-top: 10px;
-            text-transform: uppercase;
-            font-weight: 300;
-        }
+        /* --- রাজকীয় ফাউন্ডেশন নেম ডিজাইন --- */
+        .brand-container { perspective: 1000px; margin-bottom: 40px; text-align: center; }
+        .artistic-name { font-size: 38px; font-weight: 900; text-transform: uppercase; display: inline-block; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(191, 149, 63, 0.6)); letter-spacing: -1px; transform: rotateX(10deg); line-height: 1; position: relative; }
+        .artistic-name::after { content: 'MINAR GO EXPATRIATE'; position: absolute; left: 0; top: 2px; z-index: -1; filter: blur(15px); background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; opacity: 0.5; }
+        .artistic-sub { display: block; font-size: 11px; letter-spacing: 8px; color: #aaa; margin-top: 10px; text-transform: uppercase; font-weight: 300; }
 
         /* --- লগইন স্ক্রিন ডিজাইন --- */
         #login-screen { 
             position: fixed; inset: 0; z-index: 1000;
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            background: radial-gradient(circle at center, #1a1103, #000000 100%);
+            background: radial-gradient(circle at center, #1e0b36, #000000 100%);
         }
 
         .login-card-container {
             width: 85%; max-width: 380px; padding: 40px 30px;
-            background: rgba(10, 10, 10, 0.8); border-radius: 40px;
-            border: 1px solid rgba(191, 149, 63, 0.15);
+            background: rgba(26, 16, 43, 0.8); border-radius: 40px;
+            border: 1px solid rgba(191, 149, 63, 0.2);
             backdrop-filter: blur(25px); box-shadow: 0 30px 60px rgba(0,0,0,0.8);
             text-align: center;
         }
 
-        .portal-title { color: #fff; font-size: 24px; font-weight: 700; margin-bottom: 5px; letter-spacing: 1px; }
-        .portal-subtitle { color: #555; font-size: 13px; margin-bottom: 30px; }
-
         .login-input-style { 
-            width: 100%; padding: 18px; margin-bottom: 20px; border: 1px solid #222; 
-            border-radius: 20px; background: rgba(255,255,255,0.02); color: white; 
-            outline: none; transition: 0.3s; box-sizing: border-box; text-align: center;
+            width: 100%; padding: 18px; margin-bottom: 20px; border: 1px solid #33224d; 
+            border-radius: 20px; background: rgba(255,255,255,0.03); color: white; 
+            outline: none; box-sizing: border-box; text-align: center;
             font-size: 18px; letter-spacing: 5px;
         }
-        .login-input-style:focus { border-color: var(--gold-primary); background: rgba(191, 149, 63, 0.05); }
-
         .login-btn-new { 
             width: 100%; padding: 18px; border: none; border-radius: 20px; 
             background: var(--gold-gradient); color: #000; font-weight: 900; 
             cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
-            transition: 0.5s; font-size: 14px;
+            font-size: 14px;
         }
-        .login-btn-new:hover { letter-spacing: 4px; box-shadow: 0 0 30px rgba(191, 149, 63, 0.4); }
 
-        /* --- ড্যাশবোর্ড ডিজাইন (অপরিবর্তিত) --- */
+        /* --- ড্যাশবোর্ড ডিজাইন --- */
         .app-wrapper { min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; }
         #main-app { width: 100%; max-width: 800px; padding: 20px; box-sizing: border-box; }
-        .app-header-new { text-align: center; padding: 30px 0; }
         .logo-box-new { width: 110px; height: 110px; border-radius: 50%; border: 4px solid var(--gold-text); margin: 0 auto 10px; overflow: hidden; background: white; position: relative; }
         .logo-box-new img { width: 100%; height: 100%; object-fit: cover; }
-        .islamic-info { display: flex; gap: 10px; margin-bottom: 10px; width: 100%; }
-        .info-card { flex: 1; background: rgba(243, 156, 18, 0.1); border: 1px solid rgba(243, 156, 18, 0.3); padding: 15px; border-radius: 15px; text-align: center; }
+        .info-card { flex: 1; background: rgba(106, 13, 173, 0.1); border: 1px solid rgba(191, 149, 63, 0.2); padding: 15px; border-radius: 15px; text-align: center; }
         .info-card b { display: block; color: var(--gold-text); font-size: 12px; margin-bottom: 5px; }
-        .info-card span { font-size: 14px; font-weight: bold; color: #fff; }
-        .today-info-bar { width: 100%; background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 12px; text-align: center; margin-bottom: 20px; border: 1px solid rgba(243, 156, 18, 0.2); }
+        .today-info-bar { width: 100%; background: rgba(106, 13, 173, 0.15); padding: 10px; border-radius: 12px; text-align: center; margin-bottom: 20px; border: 1px solid var(--gold-primary); }
         .today-info-bar span { color: var(--gold-text); font-weight: bold; font-size: 16px; }
-        .total-fund-box { background: var(--gold-gradient); color: #000; padding: 30px; border-radius: 25px; text-align: center; margin-bottom: 20px; font-weight: bold;}
-        .glass-card { background: var(--card-dark); padding: 25px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 20px; }
-        label { color: var(--gold-text); font-size: 13px; font-weight: bold; margin-bottom: 5px; display: block; }
-        select, .custom-field { width: 100%; padding: 14px; background: #1f1f1f; border: 1px solid #333; border-radius: 12px; color: white; margin-bottom: 12px; box-sizing: border-box; outline: none; }
+        .total-fund-box { background: var(--gold-gradient); color: #000; padding: 30px; border-radius: 25px; text-align: center; margin-bottom: 20px; font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .glass-card { background: var(--card-dark); padding: 25px; border-radius: 25px; border: 1px solid rgba(191, 149, 63, 0.1); margin-bottom: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
+        select, .custom-field { width: 100%; padding: 14px; background: #0f081a; border: 1px solid #33224d; border-radius: 12px; color: white; margin-bottom: 12px; box-sizing: border-box; outline: none; }
         .gold-btn { width: 100%; padding: 16px; border: none; border-radius: 50px; background: var(--gold-gradient); color: #000; font-weight: bold; cursor: pointer; }
-        .member-manage-list { margin-top: 10px; max-height: 250px; overflow-y: auto; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; }
-        .member-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #333; font-size: 14px; }
-        .transaction-table { width: 100%; border-collapse: collapse; }
-        .transaction-table td { padding: 12px; border-bottom: 1px solid #222; }
+        .member-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #33224d; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -134,11 +86,8 @@
         <div class="artistic-name">MINAR GO EXPATRIATE</div>
         <div class="artistic-sub">Development Foundation</div>
     </div>
-
     <div class="login-card-container">
-        <div class="portal-title">ADMIN ACCESS</div>
-        <div class="portal-subtitle">সিকিউর পিন কোড প্রদান করুন</div>
-        
+        <div style="color:#fff; font-size:24px; font-weight:700; margin-bottom:5px;">ADMIN ACCESS</div>
         <input type="password" id="pinInput" class="login-input-style" placeholder="••••">
         <button class="login-btn-new" onclick="checkLogin()">Login to Portal</button>
     </div>
@@ -146,32 +95,25 @@
 
 <div class="app-wrapper">
     <div id="main-app" style="display:none;">
-        <div class="app-header-new">
+        <div class="app-header-new" style="text-align: center; padding: 30px 0;">
             <div class="logo-box-new">
                 <input type="file" accept="image/*" onchange="previewLogo(this)" style="position:absolute; inset:0; opacity:0; cursor:pointer;">
                 <img id="displayLogo" src="https://via.placeholder.com/150" alt="Logo">
             </div>
-            
             <div class="artistic-name" style="font-size: 24px;">MINAR GO EXPATRIATE</div>
             <div class="artistic-sub" style="font-size: 10px; letter-spacing: 4px;">Development Foundation</div>
         </div>
 
-        <div class="islamic-info">
-            <div class="info-card">
-                <b>🕋 হজ (সম্ভাব্য)</b>
-                <span id="hajjDate">...</span>
-            </div>
-            <div class="info-card">
-                <b>🌙 রমজান (সম্ভাব্য)</b>
-                <span id="ramadanDate">...</span>
-            </div>
+        <div class="islamic-info" style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <div class="info-card"><b>🕋 হজ (সম্ভাব্য)</b><span id="hajjDate">...</span></div>
+            <div class="info-card"><b>🌙 রমজান (সম্ভাব্য)</b><span id="ramadanDate">...</span></div>
         </div>
 
         <div class="today-info-bar">
             আজকের দিন: <span id="currentDayName">...</span> | তারিখ: <span id="currentFullDate">...</span>
         </div>
 
-        <div class="info-notice" style="background: rgba(243, 156, 18, 0.1); border-left: 5px solid var(--gold-text); padding: 12px; border-radius: 10px; margin-bottom: 20px; color: #ffcc00;">
+        <div id="noticeDisplay" class="info-notice" style="background: rgba(243, 156, 18, 0.1); border-left: 5px solid var(--gold-text); padding: 12px; border-radius: 10px; margin-bottom: 20px; color: #ffcc00;">
             📢 ঘোষণা: <span id="currentNotice">লোড হচ্ছে...</span>
         </div>
 
@@ -181,41 +123,32 @@
         </div>
 
         <div class="glass-card">
-            <label>সদস্যের নাম</label>
+            <label style="color:var(--gold-text); font-weight:bold;">সদস্যের নাম</label>
             <select id="mName"></select>
-            <label>জমার ক্যাটাগরি</label>
+            <label style="color:var(--gold-text); font-weight:bold;">জমার ক্যাটাগরি</label>
             <select id="mCategory"><option>প্রতি মাসের জমা</option><option>যাকাত</option><option>ফিতরা</option><option>বাড়ির কাজ</option></select>
-            <label>টাকার পরিমাণ</label>
+            <label style="color:var(--gold-text); font-weight:bold;">টাকার পরিমাণ</label>
             <input type="number" id="mAmt" class="custom-field" value="5000">
-            <label>তারিখ</label>
+            <label style="color:var(--gold-text); font-weight:bold;">তারিখ</label>
             <input type="date" id="mDate" class="custom-field">
             <button class="gold-btn" onclick="saveToFirebase()">SAVE DATA ONLINE</button>
         </div>
 
         <div class="glass-card" style="border: 1px dashed var(--gold-text);">
-             <label>👤 নতুন সদস্য যোগ করুন:</label>
-             <input type="text" id="newMemberName" class="custom-field" placeholder="সদস্যের নাম লিখুন">
-             <button class="gold-btn" style="margin-bottom: 20px; background: #27ae60; color: white;" onclick="addNewMember()">ADD MEMBER</button>
-
-             <label>📋 মেম্বার লিস্ট ও পাসওয়ার্ড:</label>
+             <label style="color:var(--gold-text); font-weight:bold;">👤 নতুন সদস্য যোগ করুন:</label>
+             <input type="text" id="newMemberName" class="custom-field">
+             <button class="gold-btn" style="background: #27ae60; color: white;" onclick="addNewMember()">ADD MEMBER</button>
              <div class="member-manage-list" id="memberManageList"></div>
-
-             <hr style="border: 0.5px solid #333; margin: 20px 0;">
-             <label>📢 ঘোষণা আপডেট:</label>
-             <input type="text" id="newNotice" class="custom-field" placeholder="নতুন ঘোষণা">
-             <label>🔑 অ্যাডমিন পিন পরিবর্তন:</label>
-             <input type="password" id="newPin" class="custom-field" placeholder="নতুন পিন">
+             <hr style="border: 0.5px solid #33224d; margin: 20px 0;">
+             <label style="color:var(--gold-text); font-weight:bold;">📢 ঘোষণা আপডেট:</label><input type="text" id="newNotice" class="custom-field">
+             <label style="color:var(--gold-text); font-weight:bold;">🔑 পিন পরিবর্তন:</label><input type="password" id="newPin" class="custom-field">
              <button class="gold-btn" onclick="updateSettings()">UPDATE SETTINGS</button>
              <button class="gold-btn" style="background:#555; margin-top:10px; color: white;" onclick="downloadPDF()">📄 PDF SUMMARY</button>
         </div>
 
         <div class="glass-card">
             <h3 style="color: var(--gold-text); margin-top: 0;">Recent Transactions</h3>
-            <div id="pdf-content">
-                <table class="transaction-table" style="width: 100%; border-collapse: collapse;">
-                    <tbody id="tableBody"></tbody>
-                </table>
-            </div>
+            <div id="pdf-content"><table style="width: 100%; border-collapse: collapse;"><tbody id="tableBody"></tbody></table></div>
             <button onclick="logOut()" class="gold-btn" style="background: #333; margin-top: 20px; color: white;">LOG OUT</button>
         </div>
     </div>
@@ -237,82 +170,47 @@
     function updateIslamicDates() {
         const today = new Date();
         const options = { day: 'numeric', month: 'long', year: 'numeric' };
-        const days = ['রবিবার', 'সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার', 'শুক্রবার', 'শনিবার'];
-        document.getElementById('currentDayName').innerText = days[today.getDay()];
+        document.getElementById('currentDayName').innerText = new Intl.DateTimeFormat('bn-BD', {weekday: 'long'}).format(today);
         document.getElementById('currentFullDate').innerText = today.toLocaleDateString('bn-BD', options);
-        const hajjDates = [new Date(2026, 4, 27), new Date(2027, 4, 16)];
-        const ramadanDates = [new Date(2026, 1, 18), new Date(2027, 1, 7)];
-        let nextHajj = hajjDates.find(d => d > today) || hajjDates[hajjDates.length-1];
-        document.getElementById('hajjDate').innerText = nextHajj.toLocaleDateString('bn-BD', options);
-        let nextRamadan = ramadanDates.find(d => d > today) || ramadanDates[ramadanDates.length-1];
-        document.getElementById('ramadanDate').innerText = nextRamadan.toLocaleDateString('bn-BD', options);
+        document.getElementById('hajjDate').innerText = "২৭ মে, ২০২৬";
+        document.getElementById('ramadanDate').innerText = "১৮ ফেব্রুয়ারি, ২০২৬";
     }
     updateIslamicDates();
 
-    async function checkLogin() {
+    function checkLogin() {
         const val = document.getElementById('pinInput').value;
         database.ref('admin_settings/pin').once('value', (snap) => {
-            if(val === (snap.val() || "1234")) enterApp();
-            else alert("ভুল পিন!");
+            if(val === (snap.val() || "1234")) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+            } else alert("ভুল পিন!");
         });
-    }
-
-    function enterApp() {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('main-app').style.display = 'block';
     }
 
     function addNewMember() {
         const name = document.getElementById('newMemberName').value.trim();
-        if (name) {
-            database.ref('member_list').push(name);
-            document.getElementById('newMemberName').value = "";
-            alert("সফলভাবে যোগ হয়েছে!");
-        } else alert("সদস্যের নাম লিখুন!");
+        if (name) { database.ref('member_list').push(name); document.getElementById('newMemberName').value = ""; alert("সফলভাবে যোগ হয়েছে!"); }
     }
 
     database.ref('member_list').on('value', snap => {
         const select = document.getElementById('mName');
         const manageDiv = document.getElementById('memberManageList');
         select.innerHTML = ""; manageDiv.innerHTML = "";
-        const defaultMembers = ["Mr Dulal", "Mr Omar Faruk", "Mr Sulaiman badshah", "Mr Abdul qayum", "Mr Mohammed Jamshed", "Mr Milad", "Mr Ala uddin", "Mr Shahid", "Mr Shohag", "Mr Abul Hussain", "Mr Sakib", "Mr Ronnie", "Mr Jonye", "Mr Aqib", "Mr Salauddin"];
+        const defaults = ["Mr Dulal", "Mr Omar Faruk", "Mr Sulaiman badshah", "Mr Abdul qayum", "Mr Mohammed Jamshed", "Mr Milad", "Mr Ala uddin", "Mr Shahid", "Mr Shohag", "Mr Abul Hussain", "Mr Sakib", "Mr Ronnie", "Mr Jonye", "Mr Aqib", "Mr Salauddin"];
         
-        function renderMember(mName, key, isPermanent) {
-            select.innerHTML += `<option>${mName}</option>`;
-            const safePath = mName.replace(/\./g, '_');
-            database.ref('users/' + safePath).once('value', userSnap => {
-                const pass = userSnap.exists() ? userSnap.val().password : "N/A";
-                const deleteHtml = isPermanent ? "" : `<span onclick="deleteMember('${key}', '${mName}')" style="color:#e74c3c; cursor:pointer;">🗑️</span>`;
-                manageDiv.innerHTML += `
-                    <div class="member-item">
-                        <div style="flex:2"><b>${mName}</b></div>
-                        <div style="flex:1; text-align:center; color:#2ecc71;">${pass}</div>
-                        <div style="flex:1; text-align:right;">
-                            <span onclick="resetPassword('${mName}')" style="color:var(--gold-text); cursor:pointer; margin-right:10px;">🔑</span>
-                            ${deleteHtml}
-                        </div>
-                    </div>`;
-            });
-        }
-        defaultMembers.forEach(m => renderMember(m, null, true));
-        snap.forEach(child => renderMember(child.val(), child.key, false));
+        defaults.forEach(m => {
+            select.innerHTML += `<option>${m}</option>`;
+            manageDiv.innerHTML += `<div class="member-item"><b>${m}</b><span style="color:#f39c12">Admin</span></div>`;
+        });
+        snap.forEach(child => {
+            select.innerHTML += `<option>${child.val()}</option>`;
+            manageDiv.innerHTML += `<div class="member-item"><b>${child.val()}</b><span onclick="database.ref('member_list/${child.key}').remove()" style="color:red; cursor:pointer">🗑️</span></div>`;
+        });
     });
-
-    function resetPassword(name) {
-        const newPass = prompt(name + "-এর জন্য নতুন পাসওয়ার্ড দিন:");
-        if (newPass) {
-            database.ref('users/' + name.replace(/\./g, '_')).update({ password: newPass })
-            .then(() => alert("সফলভাবে পরিবর্তন হয়েছে!"));
-        }
-    }
-
-    function deleteMember(key, name) {
-        if(confirm(name + " কে কি বাদ দিতে চান?")) database.ref('member_list/' + key).remove();
-    }
 
     function saveToFirebase() {
         const dateRaw = document.getElementById('mDate').value;
-        if(!dateRaw) { alert("তারিখ দিন!"); return; }
+        if(!dateRaw) return;
         const d = dateRaw.split('-');
         database.ref('transactions/').push({ 
             name: document.getElementById('mName').value, 
@@ -324,17 +222,14 @@
     }
 
     database.ref('transactions/').on('value', snap => {
-        const body = document.getElementById('tableBody');
-        body.innerHTML = ""; let total = 0;
+        const body = document.getElementById('tableBody'); body.innerHTML = ""; let total = 0;
         snap.forEach(child => {
             const d = child.val(); total += parseFloat(d.amt);
-            body.innerHTML += `<tr><td style="padding:10px; border-bottom:1px solid #222;"><strong>${d.name}</strong><br><small style="color:#666">${d.category} | ${d.date}</small></td><td style="color:var(--gold-text); font-weight:bold;">৳${d.amt}</td><td><span onclick="deleteItem('${child.key}')" style="cursor:pointer; color:#e74c3c;">🗑️</span></td></tr>`;
+            body.innerHTML += `<tr><td style="padding:10px; border-bottom:1px solid #33224d;"><strong>${d.name}</strong><br><small style="color:#888">${d.category} | ${d.date}</small></td><td style="color:var(--gold-text); font-weight:bold;">৳${d.amt}</td><td><span onclick="database.ref('transactions/${child.key}').remove()" style="cursor:pointer; color:red;">🗑️</span></td></tr>`;
         });
         document.getElementById('totalDisplay').innerText = "৳" + total.toLocaleString('bn-BD');
     });
 
-    function deleteItem(key) { if(confirm("মুছবেন?")) database.ref('transactions/' + key).remove(); }
-    function logOut() { location.reload(); }
     function updateSettings() {
         const notice = document.getElementById('newNotice').value;
         const pin = document.getElementById('newPin').value;
@@ -342,6 +237,7 @@
         if(pin) database.ref('admin_settings/pin').set(pin);
         alert("আপডেট হয়েছে!");
     }
+    
     function previewLogo(input) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
@@ -353,6 +249,7 @@
     database.ref('notice/').on('value', snap => { if(snap.val()) document.getElementById('currentNotice').innerText = snap.val().text; });
     document.getElementById('mDate').value = new Date().toISOString().split('T')[0];
     function downloadPDF() { html2pdf().from(document.getElementById('pdf-content')).save('Foundation_Report.pdf'); }
+    function logOut() { location.reload(); }
 </script>
 </body>
 </html>
