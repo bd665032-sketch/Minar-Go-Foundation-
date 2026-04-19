@@ -11,9 +11,8 @@
     
     <style>
         :root { 
-            /* নতুন থিম কালার: ডিপ বেগুনি এবং গোল্ডেন */
-            --black-bg: #0a0514; /* খুব গাঢ় বেগুনি মেশানো কালো */
-            --card-dark: #1a102b; /* ডিপ বেগুনি কার্ড */
+            --black-bg: #0a0514;
+            --card-dark: #1a102b;
             --gold-primary: #bf953f;
             --gold-light: #fcf6ba;
             --gold-gradient: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
@@ -24,18 +23,15 @@
         
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
-            /* ব্যাকগ্রাউন্ডে হালকা বেগুনি আভা (Glow) যোগ করা হয়েছে */
             background: radial-gradient(circle at top, #1e0b36, #0a0514 100%); 
             font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
         }
 
-        /* --- রাজকীয় ফাউন্ডেশন নেম ডিজাইন --- */
         .brand-container { perspective: 1000px; margin-bottom: 40px; text-align: center; }
         .artistic-name { font-size: 38px; font-weight: 900; text-transform: uppercase; display: inline-block; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(191, 149, 63, 0.6)); letter-spacing: -1px; transform: rotateX(10deg); line-height: 1; position: relative; }
         .artistic-name::after { content: 'MINAR GO EXPATRIATE'; position: absolute; left: 0; top: 2px; z-index: -1; filter: blur(15px); background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; opacity: 0.5; }
         .artistic-sub { display: block; font-size: 11px; letter-spacing: 8px; color: #aaa; margin-top: 10px; text-transform: uppercase; font-weight: 300; }
 
-        /* --- লগইন স্ক্রিন ডিজাইন --- */
         #login-screen { 
             position: fixed; inset: 0; z-index: 1000;
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
@@ -63,7 +59,6 @@
             font-size: 14px;
         }
 
-        /* --- ড্যাশবোর্ড ডিজাইন --- */
         .app-wrapper { min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; }
         #main-app { width: 100%; max-width: 800px; padding: 20px; box-sizing: border-box; }
         .logo-box-new { width: 110px; height: 110px; border-radius: 50%; border: 4px solid var(--gold-text); margin: 0 auto 10px; overflow: hidden; background: white; position: relative; }
@@ -77,6 +72,25 @@
         select, .custom-field { width: 100%; padding: 14px; background: #0f081a; border: 1px solid #33224d; border-radius: 12px; color: white; margin-bottom: 12px; box-sizing: border-box; outline: none; }
         .gold-btn { width: 100%; padding: 16px; border: none; border-radius: 50px; background: var(--gold-gradient); color: #000; font-weight: bold; cursor: pointer; }
         .member-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #33224d; font-size: 14px; }
+
+        /* --- সামারি টেবিল ডিজাইন আপডেট (সাদা ব্যাকগ্রাউন্ড) --- */
+        .summary-container {
+            background: #ffffff; border-radius: 20px; overflow: hidden; color: #333;
+        }
+        .summary-header {
+            display: flex; justify-content: space-between; padding: 15px 10px;
+            background: #6a0dad; font-weight: bold; color: #ffffff; font-size: 14px;
+        }
+        .summary-header span:nth-child(1) { flex: 2; }
+        .summary-header span:nth-child(2) { flex: 1; text-align: right; margin-right: 15px; }
+        .summary-header span:nth-child(3) { width: 45px; text-align: right; }
+        
+        .table-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 10px; border-bottom: 1px solid #eeeeee; color: #333;
+        }
+        .table-row strong { color: #000; }
+        .table-row small { color: #666; }
     </style>
 </head>
 <body>
@@ -146,10 +160,22 @@
              <button class="gold-btn" style="background:#555; margin-top:10px; color: white;" onclick="downloadPDF()">📄 PDF SUMMARY</button>
         </div>
 
-        <div class="glass-card">
-            <h3 style="color: var(--gold-text); margin-top: 0;">Recent Transactions</h3>
-            <div id="pdf-content"><table style="width: 100%; border-collapse: collapse;"><tbody id="tableBody"></tbody></table></div>
-            <button onclick="logOut()" class="gold-btn" style="background: #333; margin-top: 20px; color: white;">LOG OUT</button>
+        <h3 style="color: #ffffff; text-align: center; margin-bottom: 15px;">সাম্প্রতিক জমা তালিকা:</h3>
+        <div class="summary-container">
+            <div class="summary-header">
+                <span>সদস্য ও খাত</span>
+                <span>টাকা</span>
+                <span>মুছুন</span>
+            </div>
+
+            <div id="pdf-content">
+                <div id="tableBody">
+                    </div>
+            </div>
+        </div>
+        
+        <div style="padding: 20px 0;">
+            <button onclick="logOut()" class="gold-btn" style="background: #333; color: white;">LOG OUT</button>
         </div>
     </div>
 </div>
@@ -225,7 +251,17 @@
         const body = document.getElementById('tableBody'); body.innerHTML = ""; let total = 0;
         snap.forEach(child => {
             const d = child.val(); total += parseFloat(d.amt);
-            body.innerHTML += `<tr><td style="padding:10px; border-bottom:1px solid #33224d;"><strong>${d.name}</strong><br><small style="color:#888">${d.category} | ${d.date}</small></td><td style="color:var(--gold-text); font-weight:bold;">৳${d.amt}</td><td><span onclick="database.ref('transactions/${child.key}').remove()" style="cursor:pointer; color:red;">🗑️</span></td></tr>`;
+            body.innerHTML += `
+                <div class="table-row">
+                    <div style="flex: 2;">
+                        <strong>${d.name}</strong><br>
+                        <small>${d.category} | ${d.date}</small>
+                    </div>
+                    <div style="flex: 1; text-align: right; color:#333; font-weight:bold; margin-right:15px;">৳${d.amt}</div>
+                    <div style="width: 45px; text-align: right;">
+                        <span onclick="database.ref('transactions/${child.key}').remove()" style="cursor:pointer; color:red; font-size:18px;">🗑️</span>
+                    </div>
+                </div>`;
         });
         document.getElementById('totalDisplay').innerText = "৳" + total.toLocaleString('bn-BD');
     });
