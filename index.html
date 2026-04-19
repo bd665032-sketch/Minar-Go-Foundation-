@@ -22,7 +22,9 @@
         
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
-            background: radial-gradient(circle at top, #1e0b36, #0a0514 100%); 
+            /* স্ক্রিনশট অনুযায়ী আপডেট করা ব্যাকগ্রাউন্ড কালার */
+            background: linear-gradient(115deg, #00d2ff 0%, #3a0ca3 45%, #05010d 100%); 
+            background-attachment: fixed;
             font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
         }
 
@@ -50,7 +52,7 @@
             color: white;
         }
 
-        /* কম্পিউটার ব্রাউজারের জন্য ডেস্কটপ মোড (Desktop/Tab View) */
+        /* কম্পিউটার ব্রাউজারের জন্য ডেস্কটপ মোড */
         @media (min-width: 768px) {
             #main-app { 
                 max-width: 1000px !important; 
@@ -101,7 +103,8 @@
         .artistic-name { font-size: 38px; font-weight: 900; text-transform: uppercase; display: inline-block; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(191, 149, 63, 0.6)); letter-spacing: -1px; transform: rotateX(10deg); line-height: 1; position: relative; }
         .artistic-sub { display: block; font-size: 11px; letter-spacing: 8px; color: #aaa; margin-top: 10px; text-transform: uppercase; font-weight: 300; }
 
-        #login-screen { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle at center, #1e0b36, #000000 100%); }
+        /* লগইন স্ক্রিন ব্যাকগ্রাউন্ড আপডেট */
+        #login-screen { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(115deg, #00d2ff 0%, #1e0b36 60%, #000000 100%); }
         .login-card-container { width: 85%; max-width: 380px; padding: 40px 30px; background: rgba(26, 16, 43, 0.8); border-radius: 40px; border: 1px solid rgba(191, 149, 63, 0.2); backdrop-filter: blur(25px); box-shadow: 0 30px 60px rgba(0,0,0,0.8); text-align: center; }
         .login-input-style { width: 100%; padding: 18px; margin-bottom: 20px; border: 1px solid #33224d; border-radius: 20px; background: rgba(255,255,255,0.03); color: white; outline: none; box-sizing: border-box; text-align: center; font-size: 18px; letter-spacing: 5px; }
         .login-btn-new { width: 100%; padding: 18px; border: none; border-radius: 20px; background: var(--gold-gradient); color: #000; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; }
