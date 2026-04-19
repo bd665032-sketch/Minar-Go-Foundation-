@@ -33,7 +33,7 @@
                 position: absolute; left: 0; top: 0; width: 100%; 
                 background: white !important; color: black !important; padding: 20px;
             }
-            .summary-header { background: #6a0dad !important; -webkit-print-color-adjust: exact; color: white !important; display: flex !important; }
+            .summary-header { background: #6a0dad !important; -webkit-print-color-adjust: exact; color: white !important; display: flex !important; width: 100%; }
             .table-row { border-bottom: 1px solid #ddd !important; display: flex !important; color: black !important; }
             .no-print, [onclick*="remove"] { display: none !important; }
             .print-only-title { display: block !important; text-align: center; color: #000; margin-bottom: 20px; }
@@ -45,7 +45,6 @@
 
         .brand-container { perspective: 1000px; margin-bottom: 40px; text-align: center; }
         .artistic-name { font-size: 38px; font-weight: 900; text-transform: uppercase; display: inline-block; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(191, 149, 63, 0.6)); letter-spacing: -1px; transform: rotateX(10deg); line-height: 1; position: relative; }
-        .artistic-name::after { content: 'MINAR GO EXPATRIATE'; position: absolute; left: 0; top: 2px; z-index: -1; filter: blur(15px); background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; opacity: 0.5; }
         .artistic-sub { display: block; font-size: 11px; letter-spacing: 8px; color: #aaa; margin-top: 10px; text-transform: uppercase; font-weight: 300; }
 
         #login-screen { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle at center, #1e0b36, #000000 100%); }
@@ -67,15 +66,16 @@
         .gold-btn { width: 100%; padding: 16px; border: none; border-radius: 50px; background: var(--gold-gradient); color: #000; font-weight: bold; cursor: pointer; }
         .member-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #33224d; font-size: 14px; }
 
-        .summary-container { background: #ffffff; border-radius: 20px; overflow: hidden; color: #333; margin-top: 10px; }
+        .summary-container { background: #ffffff; border-radius: 20px; overflow: hidden; color: #333; margin-top: 10px; padding: 20px; }
         
-        /* বারের ভেতর কলামের অবস্থান ঠিক করা হয়েছে */
+        /* পিডিএফ ভিউতে কলাম সঠিক করার জন্য আপডেট */
         .summary-header {
-            display: flex; align-items: center; padding: 15px 10px;
-            background: #6a0dad; font-weight: bold; color: #ffffff; font-size: 14px;
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 10px; background: #6a0dad; font-weight: bold; color: #ffffff; 
+            font-size: 14px; border-radius: 10px 10px 0 0;
         }
         .header-col-1 { flex: 2; text-align: left; }
-        .header-col-2 { flex: 1; text-align: right; margin-right: 15px; }
+        .header-col-2 { flex: 1; text-align: right; margin-right: 20px; }
         .header-col-3 { width: 45px; text-align: right; }
         
         .table-row {
@@ -155,9 +155,9 @@
         </div>
 
         <div id="pdf-content" class="summary-container">
-            <div style="text-align: center; padding: 15px 0; color: #000;">
-                <h2 style="margin: 0; font-size: 26px; font-weight: 800; text-transform: uppercase; color: #6a0dad;">MINAR GO EXPATRIATE</h2>
-                <p style="margin: 5px 0 0 0; font-size: 12px; letter-spacing: 5px; text-transform: uppercase; color: #555;">Development Foundation</p>
+            <div style="text-align: center; margin-bottom: 20px; color: #000;">
+                <h1 style="margin: 0; font-size: 32px; font-weight: 800; text-transform: uppercase; color: #6a0dad;">MINAR GO EXPATRIATE</h1>
+                <p style="margin: 5px 0 0 0; font-size: 14px; letter-spacing: 5px; text-transform: uppercase; color: #555;">Development Foundation</p>
             </div>
 
             <div class="summary-header">
@@ -252,11 +252,11 @@
             const d = child.val(); total += parseFloat(d.amt);
             body.innerHTML += `
                 <div class="table-row">
-                    <div style="flex: 2;">
+                    <div style="flex: 2; text-align: left;">
                         <strong>${d.name}</strong><br>
                         <small>${d.category} | ${d.date}</small>
                     </div>
-                    <div style="flex: 1; text-align: right; color:#333; font-weight:bold; margin-right:15px;">৳${d.amt}</div>
+                    <div style="flex: 1; text-align: right; color:#333; font-weight:bold; margin-right:20px;">৳${d.amt}</div>
                     <div class="no-print" style="width: 45px; text-align: right;">
                         <span onclick="database.ref('transactions/${child.key}').remove()" style="cursor:pointer; color:red; font-size:18px;">🗑️</span>
                     </div>
