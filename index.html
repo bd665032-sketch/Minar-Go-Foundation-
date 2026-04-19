@@ -26,6 +26,30 @@
             font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
         }
 
+        /* লগ আউট বাটন পজিশনিং */
+        .logout-corner {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        .logout-btn-style {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ff4d4d;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+        }
+        .logout-btn-style:hover {
+            background: #ff4d4d;
+            color: white;
+        }
+
         /* কম্পিউটার ব্রাউজারের জন্য ডেস্কটপ মোড (Desktop/Tab View) */
         @media (min-width: 768px) {
             #main-app { 
@@ -47,7 +71,6 @@
                 position: absolute; left: 0; top: 0; width: 100%; 
                 background: white !important; color: black !important; padding: 20px;
             }
-            /* বেগুনি দাগ এবং ভিতরের লেখা ফিক্স */
             .summary-header { 
                 background: #6a0dad !important; 
                 -webkit-print-color-adjust: exact; 
@@ -59,13 +82,12 @@
             }
             .header-col-1, .header-col-2, .header-col-3 { color: white !important; opacity: 1 !important; visibility: visible !important; }
             .table-row { border-bottom: 1px solid #ddd !important; display: flex !important; color: black !important; }
-            .no-print, [onclick*="remove"] { display: none !important; }
+            .no-print, [onclick*="remove"], .logout-corner { display: none !important; }
             .total-summary-row { display: flex !important; background: #f9f9f9 !important; font-weight: bold; border-top: 2px solid #000; color: black !important; }
         }
 
         .summary-container { background: #ffffff; border-radius: 20px; overflow: hidden; color: #333; margin-top: 10px; padding: 20px; }
         
-        /* বেগুনি বারের ডিজাইন ও কলাম সেটিং */
         .summary-header {
             display: flex; justify-content: space-between; align-items: center; 
             padding: 15px 10px; background: #6a0dad; font-weight: bold; color: #ffffff; 
@@ -84,7 +106,7 @@
         .login-input-style { width: 100%; padding: 18px; margin-bottom: 20px; border: 1px solid #33224d; border-radius: 20px; background: rgba(255,255,255,0.03); color: white; outline: none; box-sizing: border-box; text-align: center; font-size: 18px; letter-spacing: 5px; }
         .login-btn-new { width: 100%; padding: 18px; border: none; border-radius: 20px; background: var(--gold-gradient); color: #000; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; }
 
-        .app-wrapper { min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .app-wrapper { min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; position: relative; }
         #main-app { width: 100%; max-width: 800px; padding: 20px; box-sizing: border-box; }
         .logo-box-new { width: 110px; height: 110px; border-radius: 50%; border: 4px solid var(--gold-text); margin: 0 auto 10px; overflow: hidden; background: white; position: relative; }
         .logo-box-new img { width: 100%; height: 100%; object-fit: cover; }
@@ -122,6 +144,10 @@
 </div>
 
 <div class="app-wrapper">
+    <div class="logout-corner" id="logoutDiv" style="display: none;">
+        <button onclick="logOut()" class="logout-btn-style">LOG OUT ⏻</button>
+    </div>
+
     <div id="main-app" style="display:none;">
         <div class="app-header-new" style="text-align: center; padding: 30px 0;">
             <div class="logo-box-new">
@@ -194,9 +220,7 @@
             </div>
         </div>
         
-        <div style="padding: 20px 0; text-align: center;">
-            <button onclick="logOut()" class="gold-btn" style="background: #333; color: white; width: auto; padding: 15px 40px;">LOG OUT</button>
-        </div>
+        <div style="padding: 20px 0;"></div>
     </div>
 </div>
 
@@ -229,6 +253,7 @@
             if(val === (snap.val() || "1234")) {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-app').style.display = 'block';
+                document.getElementById('logoutDiv').style.display = 'block';
             } else alert("ভুল পিন!");
         });
     }
