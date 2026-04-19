@@ -26,7 +26,6 @@
             font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
         }
 
-        /* --- ব্রাউজার পিডিএফ আপডেট --- */
         @media print {
             body * { visibility: hidden; background: white !important; }
             #pdf-content, #pdf-content * { visibility: visible; }
@@ -36,12 +35,9 @@
             }
             .summary-header { background: #6a0dad !important; -webkit-print-color-adjust: exact; color: white !important; display: flex !important; }
             .table-row { border-bottom: 1px solid #ddd !important; display: flex !important; color: black !important; }
-            .table-row strong { color: black !important; }
             .no-print, [onclick*="remove"] { display: none !important; }
-            
-            /* সামারিতে ফাউন্ডেশনের নাম ও টোটাল দেখানোর জন্য */
             .print-only-title { display: block !important; text-align: center; color: #000; margin-bottom: 20px; }
-            .total-summary-row { display: flex !important; background: #f9f9f9 !important; font-weight: bold; border-top: 2px solid #000; }
+            .total-summary-row { display: flex !important; background: #f9f9f9 !important; font-weight: bold; border-top: 2px solid #000; color: black !important; }
         }
 
         .print-only-title { display: none; }
@@ -52,32 +48,10 @@
         .artistic-name::after { content: 'MINAR GO EXPATRIATE'; position: absolute; left: 0; top: 2px; z-index: -1; filter: blur(15px); background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; opacity: 0.5; }
         .artistic-sub { display: block; font-size: 11px; letter-spacing: 8px; color: #aaa; margin-top: 10px; text-transform: uppercase; font-weight: 300; }
 
-        #login-screen { 
-            position: fixed; inset: 0; z-index: 1000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            background: radial-gradient(circle at center, #1e0b36, #000000 100%);
-        }
-
-        .login-card-container {
-            width: 85%; max-width: 380px; padding: 40px 30px;
-            background: rgba(26, 16, 43, 0.8); border-radius: 40px;
-            border: 1px solid rgba(191, 149, 63, 0.2);
-            backdrop-filter: blur(25px); box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            text-align: center;
-        }
-
-        .login-input-style { 
-            width: 100%; padding: 18px; margin-bottom: 20px; border: 1px solid #33224d; 
-            border-radius: 20px; background: rgba(255,255,255,0.03); color: white; 
-            outline: none; box-sizing: border-box; text-align: center;
-            font-size: 18px; letter-spacing: 5px;
-        }
-        .login-btn-new { 
-            width: 100%; padding: 18px; border: none; border-radius: 20px; 
-            background: var(--gold-gradient); color: #000; font-weight: 900; 
-            cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
-            font-size: 14px;
-        }
+        #login-screen { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle at center, #1e0b36, #000000 100%); }
+        .login-card-container { width: 85%; max-width: 380px; padding: 40px 30px; background: rgba(26, 16, 43, 0.8); border-radius: 40px; border: 1px solid rgba(191, 149, 63, 0.2); backdrop-filter: blur(25px); box-shadow: 0 30px 60px rgba(0,0,0,0.8); text-align: center; }
+        .login-input-style { width: 100%; padding: 18px; margin-bottom: 20px; border: 1px solid #33224d; border-radius: 20px; background: rgba(255,255,255,0.03); color: white; outline: none; box-sizing: border-box; text-align: center; font-size: 18px; letter-spacing: 5px; }
+        .login-btn-new { width: 100%; padding: 18px; border: none; border-radius: 20px; background: var(--gold-gradient); color: #000; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; }
 
         .app-wrapper { min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; }
         #main-app { width: 100%; max-width: 800px; padding: 20px; box-sizing: border-box; }
@@ -93,16 +67,16 @@
         .gold-btn { width: 100%; padding: 16px; border: none; border-radius: 50px; background: var(--gold-gradient); color: #000; font-weight: bold; cursor: pointer; }
         .member-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #33224d; font-size: 14px; }
 
-        .summary-container {
-            background: #ffffff; border-radius: 20px; overflow: hidden; color: #333;
-        }
+        .summary-container { background: #ffffff; border-radius: 20px; overflow: hidden; color: #333; margin-top: 10px; }
+        
+        /* বারের ভেতর কলামের অবস্থান ঠিক করা হয়েছে */
         .summary-header {
-            display: flex; justify-content: space-between; padding: 15px 10px;
+            display: flex; align-items: center; padding: 15px 10px;
             background: #6a0dad; font-weight: bold; color: #ffffff; font-size: 14px;
         }
-        .summary-header span:nth-child(1) { flex: 2; }
-        .summary-header span:nth-child(2) { flex: 1; text-align: right; margin-right: 15px; }
-        .summary-header span:nth-child(3) { width: 45px; text-align: right; }
+        .header-col-1 { flex: 2; text-align: left; }
+        .header-col-2 { flex: 1; text-align: right; margin-right: 15px; }
+        .header-col-3 { width: 45px; text-align: right; }
         
         .table-row {
             display: flex; justify-content: space-between; align-items: center;
@@ -180,24 +154,21 @@
              <button class="gold-btn" style="background:#555; margin-top:10px; color: white;" onclick="window.print()">📄 PDF SUMMARY (BROWSER)</button>
         </div>
 
-        <h3 style="color: #ffffff; text-align: center; margin-bottom: 15px;">সাম্প্রতিক জমা তালিকা:</h3>
-        
         <div id="pdf-content" class="summary-container">
-            <div class="print-only-title">
-                <h2 style="margin:0;">MINAR GO EXPATRIATE</h2>
-                <p style="margin:0;">Development Foundation</p>
-                <hr>
+            <div style="text-align: center; padding: 15px 0; color: #000;">
+                <h2 style="margin: 0; font-size: 26px; font-weight: 800; text-transform: uppercase; color: #6a0dad;">MINAR GO EXPATRIATE</h2>
+                <p style="margin: 5px 0 0 0; font-size: 12px; letter-spacing: 5px; text-transform: uppercase; color: #555;">Development Foundation</p>
             </div>
 
             <div class="summary-header">
-                <span>সদস্য ও খাত</span>
-                <span>টাকা</span>
-                <span class="no-print">মুছুন</span>
+                <span class="header-col-1">সদস্য ও খাত</span>
+                <span class="header-col-2">টাকা</span>
+                <span class="header-col-3 no-print">মুছুন</span>
             </div>
             <div id="tableBody"></div>
 
             <div class="total-summary-row">
-                <span style="flex: 2;">সর্বমোট জমা (TOTAL):</span>
+                <span style="flex: 2; padding-left: 10px;">সর্বমোট জমা (TOTAL):</span>
                 <span id="sumTotalPrint" style="flex: 1; text-align: right; margin-right: 60px;">৳০</span>
             </div>
         </div>
