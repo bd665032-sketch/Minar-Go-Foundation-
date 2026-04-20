@@ -12,7 +12,7 @@
         :root { 
             --black-bg: #0a0514;
             --card-dark: #1a102b;
-            --blue-card: #002366; /* নতুন ব্লু থিম কালার */
+            --blue-card: #002366;
             --gold-primary: #bf953f;
             --gold-light: #fcf6ba;
             --gold-gradient: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
@@ -27,7 +27,7 @@
             font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
         }
 
-        /* Desktop View Optimization */
+        /* Desktop Optimization */
         @media (min-width: 768px) {
             #main-app { 
                 max-width: 1000px !important; 
@@ -48,10 +48,26 @@
             backdrop-filter: blur(5px); transition: 0.3s;
         }
 
+        /* Fixed PDF Printing CSS */
         @media print {
-            body * { visibility: hidden; background: white !important; }
-            #pdf-content, #pdf-content * { visibility: visible; }
-            #pdf-content { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; padding: 20px; }
+            body * { visibility: hidden !important; }
+            #pdf-content, #pdf-content * { visibility: visible !important; }
+            #pdf-content { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                background: white !important; 
+                color: black !important; 
+                padding: 20px; 
+            }
+            .table-row { 
+                border-bottom: 1px solid #ddd !important; 
+                display: flex !important; 
+                justify-content: space-between !important;
+                color: black !important;
+            }
+            .table-row div { color: black !important; }
             .no-print { display: none !important; }
         }
 
@@ -61,14 +77,11 @@
         .logo-box-new img { width: 100%; height: 100%; object-fit: cover; }
         .total-fund-box { background: var(--gold-gradient); color: #000; padding: 30px; border-radius: 25px; text-align: center; margin-bottom: 20px; font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
         
-        /* সাধারণ কার্ড */
-        .glass-card { background: var(--card-dark); padding: 25px; border-radius: 25px; border: 1px solid rgba(191, 149, 63, 0.1); margin-bottom: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
+        .glass-card { background: var(--card-dark); padding: 25px; border-radius: 25px; border: 1px solid rgba(191, 149, 63, 0.1); margin-bottom: 20px; }
         
-        /* বিশেষ ৩টি অপশনের জন্য ব্লু থিম */
         .blue-themed-card { 
             background: var(--blue-card) !important; 
             border: 1px solid rgba(0, 150, 255, 0.3) !important;
-            box-shadow: 0 8px 25px rgba(0, 35, 102, 0.6) !important;
         }
 
         select, .custom-field { width: 100%; padding: 14px; background: #0f081a; border: 1px solid #33224d; border-radius: 12px; color: white; margin-bottom: 12px; box-sizing: border-box; outline: none; }
@@ -80,9 +93,9 @@
         .today-info-bar span { color: var(--gold-text); font-weight: bold; font-size: 16px; }
 
         .drawing-label { color: var(--gold-text); font-weight: bold; font-size: 13px; text-transform: uppercase; margin-bottom: 8px; display: block; border-left: 3px solid var(--gold-text); padding-left: 8px; }
-        .member-manage-list { height: 120px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 10px; margin-bottom: 10px; border: 1px solid #33224d; }
-        .summary-container { background: #ffffff; border-radius: 20px; overflow: hidden; color: #333; padding: 20px; margin-top: 10px; }
-        .table-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; border-bottom: 1px solid #eeeeee; color: #333; }
+        .member-manage-list { height: 120px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 10px; margin-bottom: 10px; }
+        .summary-container { background: #ffffff; border-radius: 20px; color: #333; padding: 20px; margin-top: 10px; }
+        .table-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; border-bottom: 1px solid #eeeeee; }
     </style>
 </head>
 <body>
@@ -115,15 +128,15 @@
         </div>
 
         <div class="islamic-info" style="display: flex; gap: 10px; margin-bottom: 10px;">
-            <div class="info-card"><b>🕋 হজ (সম্ভাব্য)</b><span id="hajjDate">২৭ মে, ২০২৬</span></div>
-            <div class="info-card"><b>🌙 রমজান (সম্ভাব্য)</b><span id="ramadanDate">১৮ ফেব্রুয়ারি, ২০২৬</span></div>
+            <div class="info-card"><b>🕋 হজ (সম্ভাব্য)</b><span id="hajjDate">২৭ মে, ২০২৭</span></div>
+            <div class="info-card"><b>🌙 রমজান (সম্ভাব্য)</b><span id="ramadanDate">১৮ ফেব্রুয়ারি, ২০২৭</span></div>
         </div>
 
         <div class="today-info-bar">
             আজকের দিন: <span id="currentDayName">...</span> | তারিখ: <span id="currentFullDate">...</span>
         </div>
 
-        <div id="noticeDisplay">
+        <div id="noticeDisplay" style="text-align:center; padding:10px; background:rgba(0,0,0,0.2); border-radius:10px; margin-bottom:10px;">
             📢 ঘোষণা: <span id="currentNotice">লোড হচ্ছে...</span>
         </div>
 
@@ -179,7 +192,6 @@
 </div>
 
 <script>
-    // স্ক্রিপ্ট অংশ একদম আগের মতোই রাখা হয়েছে
     const firebaseConfig = {
         apiKey: "AIzaSyB_xWr5iG6PcxjaNQmPoLLQKCjd64u8Cz0",
         authDomain: "minar-go-officeial.firebaseapp.com",
@@ -248,11 +260,13 @@
     database.ref('transactions/').on('value', snap => {
         const body = document.getElementById('tableBody'); body.innerHTML = ""; let total = 0;
         snap.forEach(child => {
-            const d = child.val(); total += parseFloat(d.amt);
+            const d = child.val(); 
+            const amtVal = parseFloat(d.amt) || 0;
+            total += amtVal;
             body.innerHTML += `
                 <div class="table-row">
-                    <div style="flex: 2;"><strong>${d.name}</strong><br><small>${d.category} | ${d.date}</small></div>
-                    <div style="flex: 1; text-align: right; font-weight:bold;">৳${d.amt}</div>
+                    <div style="flex: 2; color: #333 !important;"><strong>${d.name}</strong><br><small>${d.category} | ${d.date}</small></div>
+                    <div style="flex: 1; text-align: right; font-weight:bold; color: #333 !important;">৳${amtVal}</div>
                     <div class="no-print" style="margin-left:10px;"><span onclick="database.ref('transactions/${child.key}').remove()" style="color:red; cursor:pointer;">🗑️</span></div>
                 </div>`;
         });
