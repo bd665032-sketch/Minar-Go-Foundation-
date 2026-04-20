@@ -100,24 +100,29 @@
         .data-table th { background: var(--accent); color: #000; padding: 15px; text-align: left; }
         .data-table td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #eee; }
 
-        /* PDF Summary Design - White Background (আপনার নতুন রিকোয়েস্ট অনুযায়ী) */
+        /* PDF Summary Design */
         .pdf-box {
-            background: #ffffff; color: #000000; padding: 25px; border-radius: 25px; 
-            border: 2px solid var(--accent); box-shadow: 0 15px 35px rgba(0,0,0,0.5); margin-top: 20px;
+            background: #ffffff !important; color: #000000 !important; padding: 30px; border-radius: 25px; 
+            border: 2px solid var(--primary); box-shadow: 0 15px 35px rgba(0,0,0,0.5); margin-top: 20px;
         }
-        .pdf-header { text-align: center; border-bottom: 2px solid var(--primary); margin-bottom: 15px; padding-bottom: 10px; }
-        .pdf-info { display: flex; flex-direction: column; gap: 10px; font-size: 15px; font-weight: bold; }
-        .pdf-row { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .pdf-header { text-align: center; border-bottom: 3px solid var(--primary); margin-bottom: 20px; padding-bottom: 15px; }
+        .pdf-info { display: flex; flex-direction: column; gap: 15px; font-size: 18px; font-weight: bold; color: #000 !important; }
+        .pdf-row { display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+        .pdf-row span { color: #000 !important; }
 
         .logout-btn { position: absolute; right: 20px; top: 20px; background: rgba(211, 47, 47, 0.8); color: white; border: none; border-radius: 10px; padding: 8px 15px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
         #auth-screen, #main-app { display: none; }
 
-        /* প্রিন্ট করার সময় শুধু সামারি বক্সটি দেখাবে */
         @media print {
-            body * { visibility: hidden; }
-            #pdfSummaryZone, #pdfSummaryZone * { visibility: visible; }
-            #pdfSummaryZone { position: absolute; left: 0; top: 0; width: 100%; border: none; box-shadow: none; }
+            body * { visibility: hidden !important; }
+            #pdfSummaryZone, #pdfSummaryZone * { visibility: visible !important; }
+            #pdfSummaryZone { 
+                position: absolute; left: 0; top: 0; width: 100%; 
+                background: white !important; color: black !important; 
+                border: none !important; box-shadow: none !important;
+            }
+            #pdfSummaryZone h2, #pdfSummaryZone p, #pdfSummaryZone span { color: black !important; }
             .no-print { display: none !important; }
         }
     </style>
@@ -152,8 +157,8 @@
 
     <div class="container">
         <div class="islamic-info">
-            <div class="info-card"><b>🕋 পরবর্তী হজ</b><span id="userHajjDate">...</span></div>
-            <div class="info-card"><b>🌙 পরবর্তী রমজান</b><span id="userRamadanDate">...</span></div>
+            <div class="info-card"><b>🕋 পরবর্তী হজ</b><span id="userHajjDate">২৭ মে, ২০২৭</span></div>
+            <div class="info-card"><b>🌙 পরবর্তী রমজান</b><span id="userRamadanDate">১৮ ফেব্রুয়ারি, ২০২৭</span></div>
         </div>
         <div class="today-bar">📅 আজ: <span id="uDay">...</span> | <span id="uDate">...</span></div>
         <div id="noticeArea" class="emergency-notice"><b>📢 জরুরি বিজ্ঞপ্তি:</b><p id="noticeMessage" style="margin: 5px 0 0; font-size: 14px;"></p></div>
@@ -176,15 +181,15 @@
 
         <div id="pdfSummaryZone" class="pdf-box">
             <div class="pdf-header">
-                <h2 style="margin: 0; color: #2d0056; font-size: 18px; font-weight: 800;">MINAR GO EXPATRIATE DEVELOPMENT FOUNDATION</h2>
-                <p style="margin: 5px 0; color: #555; font-size: 12px; font-weight: bold;">মেম্বার জমার রিপোর্ট (সারসংক্ষেপ)</p>
+                <h2 style="margin: 0; color: #2d0056; font-size: 20px; font-weight: 800;">MINAR GO EXPATRIATE DEVELOPMENT FOUNDATION</h2>
+                <p style="margin: 10px 0; color: #000; font-size: 14px; font-weight: bold;">মেম্বার জমার রিপোর্ট (সারসংক্ষেপ)</p>
             </div>
             <div class="pdf-info">
-                <div class="pdf-row"><span>মেম্বার নাম:</span><span id="summNameVal" style="color: #2d0056;">-</span></div>
-                <div class="pdf-row"><span>মোট জমার পরিমাণ:</span><span id="summTotalVal" style="color: #d35400;">৳ ০.০০</span></div>
-                <div class="pdf-row"><span>রিপোর্ট তারিখ:</span><span id="summDateVal">২০/০৪/২০২৬</span></div>
+                <div class="pdf-row"><span>মেম্বার নাম:</span><span id="summNameVal" style="color: #000 !important;">-</span></div>
+                <div class="pdf-row"><span>মোট জমার পরিমাণ:</span><span id="summTotalVal" style="color: #000 !important;">৳ ০.০০</span></div>
+                <div class="pdf-row"><span>রিপোর্ট তারিখ:</span><span id="summDateVal" style="color: #000 !important;">-</span></div>
             </div>
-            <button class="btn no-print" onclick="window.print()" style="margin-top: 20px; background: var(--primary); color: #fff; font-size: 14px;">
+            <button class="btn no-print" onclick="window.print()" style="margin-top: 25px; background: var(--primary); color: #fff; font-size: 16px;">
                 📄 ডাউনলোড পিডিএফ (PDF SUMMARY)
             </button>
         </div>
@@ -210,9 +215,9 @@
         const options = { day: 'numeric', month: 'long', year: 'numeric' };
         const days = ['রবিবার', 'সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার', 'শুক্রবার', 'শনিবার'];
         document.getElementById('uDay').innerText = days[today.getDay()];
-        document.getElementById('uDate').innerText = today.toLocaleDateString('bn-BD', options);
-        document.getElementById('userHajjDate').innerText = "২৭ মে, ২০২৬";
-        document.getElementById('userRamadanDate').innerText = "১৮ ফেব্রুয়ারি, ২০২৬";
+        const formattedDate = today.toLocaleDateString('bn-BD', options);
+        document.getElementById('uDate').innerText = formattedDate;
+        document.getElementById('summDateVal').innerText = formattedDate;
     }
     updateAutoInfo();
 
@@ -260,20 +265,20 @@
         database.ref('transactions/').on('value', snap => {
             const tbody = document.getElementById('userTableBody'); 
             tbody.innerHTML = "";
-            let total = 0; // মোট জমা হিসাব করার জন্য
+            let total = 0;
 
             snap.forEach(child => {
                 const d = child.val();
                 if(d.name === currentUser) {
-                    total += parseInt(d.amt);
+                    total += parseInt(d.amt || 0);
                     tbody.innerHTML += `<tr><td><strong>${d.category}</strong><br><small>${d.date}</small></td><td style="color:var(--accent); font-weight:bold;">৳${d.amt}</td><td style="text-align:center;"><span style="color:#ff5252; cursor:pointer;" onclick="deleteEntry('${child.key}')">🗑️</span></td></tr>`;
                 }
             });
 
-            // সাদা বক্সে ডাটা আপডেট করার নতুন কোড
             document.getElementById('summNameVal').innerText = currentUser;
             document.getElementById('summTotalVal').innerText = "৳ " + total.toLocaleString('bn-BD');
-            document.getElementById('summDateVal').innerText = document.getElementById('uDate').innerText;
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            document.getElementById('summDateVal').innerText = new Date().toLocaleDateString('bn-BD', options);
         });
     }
 
