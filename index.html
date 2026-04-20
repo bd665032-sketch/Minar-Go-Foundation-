@@ -22,127 +22,61 @@
         
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
-            /* স্ক্রিনশট অনুযায়ী আপডেট করা ব্যাকগ্রাউন্ড কালার */
             background: linear-gradient(115deg, #00d2ff 0%, #3a0ca3 45%, #05010d 100%); 
             background-attachment: fixed;
             font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
         }
 
-        /* লগ আউট বাটন পজিশনিং */
-        .logout-corner {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-        }
+        .logout-corner { position: absolute; top: 20px; right: 20px; z-index: 100; }
         .logout-btn-style {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ff4d4d;
-            border: 1px solid rgba(255, 77, 77, 0.3);
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
-        }
-        .logout-btn-style:hover {
-            background: #ff4d4d;
-            color: white;
+            background: rgba(255, 255, 255, 0.1); color: #ff4d4d; border: 1px solid rgba(255, 77, 77, 0.3);
+            padding: 8px 15px; border-radius: 10px; font-size: 12px; font-weight: bold; cursor: pointer;
+            backdrop-filter: blur(5px); transition: 0.3s;
         }
 
-        /* কম্পিউটার ব্রাউজারের জন্য ডেস্কটপ মোড */
         @media (min-width: 768px) {
-            #main-app { 
-                max-width: 1000px !important; 
-                display: grid !important; 
-                grid-template-columns: 1fr 1fr; 
-                gap: 20px; 
-                padding: 40px !important;
-            }
-            .app-header-new, .islamic-info, .today-info-bar, .total-fund-box, #noticeDisplay, #pdf-content, div[style*="padding: 20px 0"] { 
-                grid-column: span 2; 
-            }
+            #main-app { max-width: 1000px !important; display: grid !important; grid-template-columns: 1fr 1fr; gap: 20px; padding: 40px !important; }
+            .app-header-new, .islamic-info, .today-info-bar, .total-fund-box, #noticeDisplay, .full-width-box, div[style*="padding: 20px 0"] { grid-column: span 2; }
         }
 
         @media print {
             body * { visibility: hidden; background: white !important; }
             #pdf-content, #pdf-content * { visibility: visible; }
-            #pdf-content { 
-                position: absolute; left: 0; top: 0; width: 100%; 
-                background: white !important; color: black !important; padding: 20px;
-            }
-            .summary-header { 
-                background: #6a0dad !important; 
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact;
-                color: white !important; 
-                display: flex !important; 
-                flex-direction: row !important;
-                width: 100% !important; 
-            }
-            .header-col-1, .header-col-2, .header-col-3 { color: white !important; opacity: 1 !important; visibility: visible !important; }
-            .table-row { border-bottom: 1px solid #ddd !important; display: flex !important; color: black !important; }
-            .no-print, [onclick*="remove"], .logout-corner { display: none !important; }
-            .total-summary-row { display: flex !important; background: #f9f9f9 !important; font-weight: bold; border-top: 2px solid #000; color: black !important; }
+            #pdf-content { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; padding: 20px; }
+            .no-print { display: none !important; }
         }
-
-        .summary-container { background: #ffffff; border-radius: 20px; overflow: hidden; color: #333; margin-top: 10px; padding: 20px; }
-        
-        .summary-header {
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 10px; background: #6a0dad; font-weight: bold; color: #ffffff; 
-            font-size: 14px; border-radius: 10px 10px 0 0;
-        }
-        .header-col-1 { flex: 2; text-align: left; }
-        .header-col-2 { flex: 1; text-align: right; margin-right: 20px; }
-        .header-col-3 { width: 50px; text-align: right; }
-
-        .brand-container { perspective: 1000px; margin-bottom: 40px; text-align: center; }
-        .artistic-name { font-size: 38px; font-weight: 900; text-transform: uppercase; display: inline-block; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(191, 149, 63, 0.6)); letter-spacing: -1px; transform: rotateX(10deg); line-height: 1; position: relative; }
-        .artistic-sub { display: block; font-size: 11px; letter-spacing: 8px; color: #aaa; margin-top: 10px; text-transform: uppercase; font-weight: 300; }
-
-        /* লগইন স্ক্রিন ব্যাকগ্রাউন্ড আপডেট */
-        #login-screen { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(115deg, #00d2ff 0%, #1e0b36 60%, #000000 100%); }
-        .login-card-container { width: 85%; max-width: 380px; padding: 40px 30px; background: rgba(26, 16, 43, 0.8); border-radius: 40px; border: 1px solid rgba(191, 149, 63, 0.2); backdrop-filter: blur(25px); box-shadow: 0 30px 60px rgba(0,0,0,0.8); text-align: center; }
-        .login-input-style { width: 100%; padding: 18px; margin-bottom: 20px; border: 1px solid #33224d; border-radius: 20px; background: rgba(255,255,255,0.03); color: white; outline: none; box-sizing: border-box; text-align: center; font-size: 18px; letter-spacing: 5px; }
-        .login-btn-new { width: 100%; padding: 18px; border: none; border-radius: 20px; background: var(--gold-gradient); color: #000; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; }
 
         .app-wrapper { min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; position: relative; }
         #main-app { width: 100%; max-width: 800px; padding: 20px; box-sizing: border-box; }
         .logo-box-new { width: 110px; height: 110px; border-radius: 50%; border: 4px solid var(--gold-text); margin: 0 auto 10px; overflow: hidden; background: white; position: relative; }
         .logo-box-new img { width: 100%; height: 100%; object-fit: cover; }
-        .info-card { flex: 1; background: rgba(106, 13, 173, 0.1); border: 1px solid rgba(191, 149, 63, 0.2); padding: 15px; border-radius: 15px; text-align: center; }
-        .info-card b { display: block; color: var(--gold-text); font-size: 12px; margin-bottom: 5px; }
-        .today-info-bar { width: 100%; background: rgba(106, 13, 173, 0.15); padding: 10px; border-radius: 12px; text-align: center; margin-bottom: 20px; border: 1px solid var(--gold-primary); }
-        .today-info-bar span { color: var(--gold-text); font-weight: bold; font-size: 16px; }
         .total-fund-box { background: var(--gold-gradient); color: #000; padding: 30px; border-radius: 25px; text-align: center; margin-bottom: 20px; font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
         .glass-card { background: var(--card-dark); padding: 25px; border-radius: 25px; border: 1px solid rgba(191, 149, 63, 0.1); margin-bottom: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
         select, .custom-field { width: 100%; padding: 14px; background: #0f081a; border: 1px solid #33224d; border-radius: 12px; color: white; margin-bottom: 12px; box-sizing: border-box; outline: none; }
         .gold-btn { width: 100%; padding: 16px; border: none; border-radius: 50px; background: var(--gold-gradient); color: #000; font-weight: bold; cursor: pointer; }
-        .member-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #33224d; font-size: 14px; }
         
-        .table-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 10px; border-bottom: 1px solid #eeeeee; color: #333;
-        }
-        .table-row strong { color: #000; }
-        .table-row small { color: #666; }
-        .total-summary-row { display: flex; justify-content: space-between; padding: 15px 10px; background: #f1f1f1; color: #000; font-weight: bold; font-size: 16px; border-radius: 0 0 20px 20px; }
+        .info-card { flex: 1; background: rgba(106, 13, 173, 0.1); border: 1px solid rgba(191, 149, 63, 0.2); padding: 15px; border-radius: 15px; text-align: center; }
+        .info-card b { display: block; color: var(--gold-text); font-size: 12px; margin-bottom: 5px; }
+        .today-info-bar { width: 100%; background: rgba(106, 13, 173, 0.15); padding: 10px; border-radius: 12px; text-align: center; margin-bottom: 20px; border: 1px solid var(--gold-primary); }
+        .today-info-bar span { color: var(--gold-text); font-weight: bold; font-size: 16px; }
+
+        .drawing-label { color: var(--gold-text); font-weight: bold; font-size: 13px; text-transform: uppercase; margin-bottom: 8px; display: block; border-left: 3px solid var(--gold-text); padding-left: 8px; }
+        .member-manage-list { height: 120px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 10px; margin-bottom: 10px; border: 1px solid #33224d; }
+        .summary-container { background: #ffffff; border-radius: 20px; overflow: hidden; color: #333; padding: 20px; margin-top: 10px; }
+        .table-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; border-bottom: 1px solid #eeeeee; color: #333; }
     </style>
 </head>
 <body>
 
-<div id="login-screen">
-    <div class="brand-container">
-        <div class="artistic-name">MINAR GO EXPATRIATE</div>
-        <div class="artistic-sub">Development Foundation</div>
+<div id="login-screen" style="position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(115deg, #00d2ff 0%, #1e0b36 60%, #000000 100%);">
+    <div style="text-align:center; margin-bottom:40px;">
+        <div style="font-size:38px; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">MINAR GO EXPATRIATE</div>
+        <div style="letter-spacing:8px; color:#aaa; font-size:11px;">DEVELOPMENT FOUNDATION</div>
     </div>
-    <div class="login-card-container">
-        <div style="color:#fff; font-size:24px; font-weight:700; margin-bottom:5px;">ADMIN ACCESS</div>
-        <input type="password" id="pinInput" class="login-input-style" placeholder="••••">
-        <button class="login-btn-new" onclick="checkLogin()">Login to Portal</button>
+    <div style="width:85%; max-width:380px; padding:40px 30px; background:rgba(26,16,43,0.8); border-radius:40px; border:1px solid rgba(191,149,63,0.2); backdrop-filter:blur(25px); text-align:center;">
+        <div style="color:#fff; font-size:24px; font-weight:700; margin-bottom:20px;">ADMIN ACCESS</div>
+        <input type="password" id="pinInput" style="width:100%; padding:18px; margin-bottom:20px; border-radius:20px; background:rgba(255,255,255,0.03); color:white; text-align:center; font-size:18px; letter-spacing:5px;" placeholder="••••">
+        <button class="gold-btn" onclick="checkLogin()">Login to Portal</button>
     </div>
 </div>
 
@@ -157,20 +91,20 @@
                 <input type="file" accept="image/*" onchange="previewLogo(this)" style="position:absolute; inset:0; opacity:0; cursor:pointer;">
                 <img id="displayLogo" src="https://via.placeholder.com/150" alt="Logo">
             </div>
-            <div class="artistic-name" style="font-size: 24px;">MINAR GO EXPATRIATE</div>
-            <div class="artistic-sub" style="font-size: 10px; letter-spacing: 4px;">Development Foundation</div>
+            <div style="font-size: 24px; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">MINAR GO EXPATRIATE</div>
+            <div style="font-size: 10px; letter-spacing: 4px; color:#aaa;">Development Foundation</div>
         </div>
 
         <div class="islamic-info" style="display: flex; gap: 10px; margin-bottom: 10px;">
-            <div class="info-card"><b>🕋 হজ (সম্ভাব্য)</b><span id="hajjDate">...</span></div>
-            <div class="info-card"><b>🌙 রমজান (সম্ভাব্য)</b><span id="ramadanDate">...</span></div>
+            <div class="info-card"><b>🕋 হজ (সম্ভাব্য)</b><span id="hajjDate">২৭ মে, ২০২৬</span></div>
+            <div class="info-card"><b>🌙 রমজান (সম্ভাব্য)</b><span id="ramadanDate">১৮ ফেব্রুয়ারি, ২০২৬</span></div>
         </div>
 
         <div class="today-info-bar">
             আজকের দিন: <span id="currentDayName">...</span> | তারিখ: <span id="currentFullDate">...</span>
         </div>
 
-        <div id="noticeDisplay" class="info-notice" style="background: rgba(243, 156, 18, 0.1); border-left: 5px solid var(--gold-text); padding: 12px; border-radius: 10px; margin-bottom: 20px; color: #ffcc00;">
+        <div id="noticeDisplay" style="background: rgba(243, 156, 18, 0.1); border-left: 5px solid var(--gold-text); padding: 12px; border-radius: 10px; margin-bottom: 20px; color: #ffcc00;">
             📢 ঘোষণা: <span id="currentNotice">লোড হচ্ছে...</span>
         </div>
 
@@ -180,47 +114,43 @@
         </div>
 
         <div class="glass-card">
-            <label style="color:var(--gold-text); font-weight:bold;">সদস্যের নাম</label>
+            <span class="drawing-label">Name Member (জমা এন্ট্রি)</span>
             <select id="mName"></select>
-            <label style="color:var(--gold-text); font-weight:bold;">জমার ক্যাটাগরি</label>
             <select id="mCategory"><option>প্রতি মাসের জমা</option><option>যাকাত</option><option>ফিতরা</option><option>বাড়ির কাজ</option></select>
-            <label style="color:var(--gold-text); font-weight:bold;">টাকার পরিমাণ</label>
             <input type="number" id="mAmt" class="custom-field" value="5000">
-            <label style="color:var(--gold-text); font-weight:bold;">তারিখ</label>
             <input type="date" id="mDate" class="custom-field">
             <button class="gold-btn" onclick="saveToFirebase()">SAVE DATA ONLINE</button>
         </div>
 
-        <div class="glass-card" style="border: 1px dashed var(--gold-text);">
-             <label style="color:var(--gold-text); font-weight:bold;">👤 নতুন সদস্য যোগ করুন:</label>
-             <input type="text" id="newMemberName" class="custom-field">
-             <button class="gold-btn" style="background: #27ae60; color: white;" onclick="addNewMember()">ADD MEMBER</button>
-             <div class="member-manage-list" id="memberManageList"></div>
-             <hr style="border: 0.5px solid #33224d; margin: 20px 0;">
-             <label style="color:var(--gold-text); font-weight:bold;">📢 ঘোষণা আপডেট:</label><input type="text" id="newNotice" class="custom-field">
-             <label style="color:var(--gold-text); font-weight:bold;">🔑 পিন পরিবর্তন:</label><input type="password" id="newPin" class="custom-field">
-             <button class="gold-btn" onclick="updateSettings()">UPDATE SETTINGS</button>
-             
-             <button class="gold-btn" style="background:#555; margin-top:10px; color: white;" onclick="window.print()">📄 PDF SUMMARY (BROWSER)</button>
+        <div class="glass-card">
+            <span class="drawing-label">Add New Mem / Member List</span>
+            <input type="text" id="newMemberName" class="custom-field" placeholder="নতুন মেম্বার নাম">
+            <button class="gold-btn" style="background: #27ae60; color: white; margin-bottom:15px;" onclick="addNewMember()">ADD MEMBER</button>
+            <div class="member-manage-list" id="memberManageList"></div>
         </div>
 
-        <div id="pdf-content" class="summary-container">
-            <div style="text-align: center; margin-bottom: 20px; color: #000;">
-                <h1 style="margin: 0; font-size: 32px; font-weight: 800; text-transform: uppercase; color: #6a0dad;">MINAR GO EXPATRIATE</h1>
-                <p style="margin: 5px 0 0 0; font-size: 14px; letter-spacing: 5px; text-transform: uppercase; color: #555;">Development Foundation</p>
-            </div>
+        <div class="glass-card">
+            <span class="drawing-label">Announcrm & Pin Change</span>
+            <input type="text" id="newNotice" class="custom-field" placeholder="নতুন ঘোষণা">
+            <input type="password" id="newPin" class="custom-field" placeholder="নতুন পিন কোড">
+            <button class="gold-btn" onclick="updateSettings()">UPDATE SETTINGS</button>
+        </div>
 
-            <div class="summary-header">
-                <span class="header-col-1">সদস্য ও খাত</span>
-                <span class="header-col-2">টাকা</span>
-                <span class="header-col-3 no-print">মুছুন</span>
+        <div id="pdf-content" class="summary-container full-width-box">
+            <div style="text-align: center; margin-bottom: 20px; color: #000;">
+                <h1 style="margin: 0; font-size: 28px; font-weight: 800; color: #6a0dad;">MINAR GO EXPATRIATE</h1>
+                <p style="margin: 0; font-size: 12px; letter-spacing: 3px; color: #555;">DEVELOPMENT FOUNDATION</p>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px; background: #6a0dad; color: #fff; font-weight: bold; border-radius: 10px 10px 0 0;">
+                <span>সদস্য ও খাত</span>
+                <span>টাকা</span>
             </div>
             <div id="tableBody"></div>
-
-            <div class="total-summary-row">
-                <span style="flex: 2; padding-left: 10px;">সর্বমোট জমা (TOTAL):</span>
-                <span id="sumTotalPrint" style="flex: 1; text-align: right; margin-right: 60px;">৳০</span>
+            <div style="display: flex; justify-content: space-between; padding: 15px 10px; background: #f1f1f1; color: #000; font-weight: bold; font-size: 18px; border-radius: 0 0 20px 20px;">
+                <span>TOTAL:</span>
+                <span id="sumTotalPrint">৳০</span>
             </div>
+            <button class="gold-btn no-print" style="background:#555; margin-top:15px; color: white;" onclick="window.print()">📄 PDF SUMMARY (GENERATE)</button>
         </div>
         
         <div style="padding: 20px 0;"></div>
@@ -245,8 +175,6 @@
         const options = { day: 'numeric', month: 'long', year: 'numeric' };
         document.getElementById('currentDayName').innerText = new Intl.DateTimeFormat('bn-BD', {weekday: 'long'}).format(today);
         document.getElementById('currentFullDate').innerText = today.toLocaleDateString('bn-BD', options);
-        document.getElementById('hajjDate').innerText = "২৭ মে, ২০২৬";
-        document.getElementById('ramadanDate').innerText = "১৮ ফেব্রুয়ারি, ২০২৬";
     }
     updateIslamicDates();
 
@@ -274,11 +202,11 @@
         
         defaults.forEach(m => {
             select.innerHTML += `<option>${m}</option>`;
-            manageDiv.innerHTML += `<div class="member-item"><b>${m}</b><span style="color:#f39c12">Admin</span></div>`;
+            manageDiv.innerHTML += `<div style="display:flex; justify-content:space-between; padding:5px; border-bottom:1px solid #33224d; font-size:13px;"><span>${m}</span><span style="color:var(--gold-text)">Admin</span></div>`;
         });
         snap.forEach(child => {
             select.innerHTML += `<option>${child.val()}</option>`;
-            manageDiv.innerHTML += `<div class="member-item"><b>${child.val()}</b><span onclick="database.ref('member_list/${child.key}').remove()" style="color:red; cursor:pointer">🗑️</span></div>`;
+            manageDiv.innerHTML += `<div style="display:flex; justify-content:space-between; padding:5px; border-bottom:1px solid #33224d; font-size:13px;"><span>${child.val()}</span><span onclick="database.ref('member_list/${child.key}').remove()" style="color:red; cursor:pointer">🗑️</span></div>`;
         });
     });
 
@@ -301,14 +229,9 @@
             const d = child.val(); total += parseFloat(d.amt);
             body.innerHTML += `
                 <div class="table-row">
-                    <div style="flex: 2; text-align: left;">
-                        <strong>${d.name}</strong><br>
-                        <small>${d.category} | ${d.date}</small>
-                    </div>
-                    <div style="flex: 1; text-align: right; color:#333; font-weight:bold; margin-right:20px;">৳${d.amt}</div>
-                    <div class="no-print" style="width: 50px; text-align: right;">
-                        <span onclick="database.ref('transactions/${child.key}').remove()" style="cursor:pointer; color:red; font-size:18px;">🗑️</span>
-                    </div>
+                    <div style="flex: 2;"><strong>${d.name}</strong><br><small>${d.category} | ${d.date}</small></div>
+                    <div style="flex: 1; text-align: right; font-weight:bold;">৳${d.amt}</div>
+                    <div class="no-print" style="margin-left:10px;"><span onclick="database.ref('transactions/${child.key}').remove()" style="color:red; cursor:pointer;">🗑️</span></div>
                 </div>`;
         });
         document.getElementById('totalDisplay').innerText = "৳" + total.toLocaleString('bn-BD');
