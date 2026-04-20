@@ -12,6 +12,7 @@
         :root { 
             --black-bg: #0a0514;
             --card-dark: #1a102b;
+            --blue-card: #002366; /* নতুন ব্লু থিম কালার */
             --gold-primary: #bf953f;
             --gold-light: #fcf6ba;
             --gold-gradient: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
@@ -59,7 +60,17 @@
         .logo-box-new { width: 110px; height: 110px; border-radius: 50%; border: 4px solid var(--gold-text); margin: 0 auto 10px; overflow: hidden; background: white; position: relative; }
         .logo-box-new img { width: 100%; height: 100%; object-fit: cover; }
         .total-fund-box { background: var(--gold-gradient); color: #000; padding: 30px; border-radius: 25px; text-align: center; margin-bottom: 20px; font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        
+        /* সাধারণ কার্ড */
         .glass-card { background: var(--card-dark); padding: 25px; border-radius: 25px; border: 1px solid rgba(191, 149, 63, 0.1); margin-bottom: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
+        
+        /* বিশেষ ৩টি অপশনের জন্য ব্লু থিম */
+        .blue-themed-card { 
+            background: var(--blue-card) !important; 
+            border: 1px solid rgba(0, 150, 255, 0.3) !important;
+            box-shadow: 0 8px 25px rgba(0, 35, 102, 0.6) !important;
+        }
+
         select, .custom-field { width: 100%; padding: 14px; background: #0f081a; border: 1px solid #33224d; border-radius: 12px; color: white; margin-bottom: 12px; box-sizing: border-box; outline: none; }
         .gold-btn { width: 100%; padding: 16px; border: none; border-radius: 50px; background: var(--gold-gradient); color: #000; font-weight: bold; cursor: pointer; }
         
@@ -121,7 +132,7 @@
             <h1 id="totalDisplay" style="margin:5px 0 0 0; font-size: 40px;">৳০</h1>
         </div>
 
-        <div class="glass-card">
+        <div class="glass-card blue-themed-card">
             <span class="drawing-label">Name Member (জমা এন্ট্রি)</span>
             <select id="mName"></select>
             <select id="mCategory"><option>প্রতি মাসের জমা</option><option>যাকাত</option><option>ফিতরা</option><option>বাড়ির কাজ</option></select>
@@ -130,14 +141,14 @@
             <button class="gold-btn" onclick="saveToFirebase()">SAVE DATA ONLINE</button>
         </div>
 
-        <div class="glass-card">
+        <div class="glass-card blue-themed-card">
             <span class="drawing-label">Add New Mem / Member List</span>
             <input type="text" id="newMemberName" class="custom-field" placeholder="নতুন মেম্বার নাম">
             <button class="gold-btn" style="background: #27ae60; color: white; margin-bottom:15px;" onclick="addNewMember()">ADD MEMBER</button>
             <div class="member-manage-list" id="memberManageList"></div>
         </div>
 
-        <div class="glass-card desktop-full-center">
+        <div class="glass-card desktop-full-center blue-themed-card">
             <span class="drawing-label">Announcrm & Pin Change</span>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                 <input type="text" id="newNotice" class="custom-field" style="flex: 1; min-width: 200px;" placeholder="নতুন ঘোষণা">
@@ -168,6 +179,7 @@
 </div>
 
 <script>
+    // স্ক্রিপ্ট অংশ একদম আগের মতোই রাখা হয়েছে
     const firebaseConfig = {
         apiKey: "AIzaSyB_xWr5iG6PcxjaNQmPoLLQKCjd64u8Cz0",
         authDomain: "minar-go-officeial.firebaseapp.com",
