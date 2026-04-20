@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Panel - Minar Go Foundation</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <style>
+        :root { 
+            --primary: #2d0056; 
+            --accent: #f39c12;
+            --gold-grad: linear-gradient(135deg, #f39c12, #ffea00);
+            --bg: #0f0c29;
+            --glass: rgba(255, 255, 255, 0.1);
+            --white: #ffffff;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e); 
+            margin: 0; padding: 0; color: var(--white);
+            min-height: 100vh;
+        }
+        
+        .header { 
+            background: rgba(45, 0, 86, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 50px 20px; text-align: center; 
+            border-radius: 0 0 50px 50px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .logo-area { 
+            width: 100px; height: 100px; background: var(--white); 
+            border-radius: 50%; margin: 0 auto 15px; 
+            display: flex; align-items: center; justify-content: center; 
+            border: 4px solid var(--accent); overflow: hidden; 
+            box-shadow: 0 0 20px rgba(243, 156, 18, 0.6);
+        }
+        .logo-area img { width: 100%; height: 100%; object-fit: cover; }
+
+        .foundation-name { font-size: 14px; color: var(--accent); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .user-name { 
+            font-size: 28px; font-weight: 800; margin: 5px 0; 
+            background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .container { padding: 20px; max-width: 500px; margin: auto; }
+        
+        .islamic-info { display: flex; gap: 15px; margin-bottom: 15px; margin-top: -30px; }
+        .info-card { 
+            flex: 1; background: var(--glass); 
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(243, 156, 18, 0.3); 
+            padding: 15px; border-radius: 20px; text-align: center; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .info-card b { display: block; color: var(--accent); font-size: 12px; margin-bottom: 8px; }
+        .info-card span { font-size: 14px; font-weight: bold; color: var(--white); }
+
+        .today-bar { 
+            background: var(--gold-grad); color: #000;
+            border-radius: 50px; padding: 10px; text-align: center; 
+            margin-bottom: 25px; font-size: 15px; font-weight: bold; 
+        }
+
+        .emergency-notice { 
+            background: rgba(243, 156, 18, 0.15); 
+            border: 1px solid var(--accent); padding: 15px; 
+            border-radius: 20px; margin-bottom: 25px; 
+            animation: glow 2s infinite alternate;
+        }
+        @keyframes glow { from { opacity: 0.8; } to { opacity: 1; } }
+
+        .card { 
+            background: var(--glass); backdrop-filter: blur(20px);
+            padding: 30px; border-radius: 30px; 
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); margin-bottom: 30px; 
+        }
+        
+        h3 { color: var(--accent); text-align: center; font-size: 20px; border-bottom: 1px solid rgba(243, 156, 18, 0.3); padding-bottom: 10px; font-weight: 800; }
+        label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: bold; color: #ddd; }
+        
+        input, select { 
+            width: 100%; padding: 15px; border: 1px solid rgba(255,255,255,0.2); 
+            border-radius: 15px; box-sizing: border-box; margin-bottom: 20px; 
+            background: rgba(0,0,0,0.3); color: white; outline: none;
+        }
+
+        .btn { 
+            width: 100%; padding: 18px; border: none; border-radius: 15px; 
+            font-weight: 800; cursor: pointer; font-size: 16px; color: #000; 
+            background: var(--gold-grad);
+        }
+
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--glass); border-radius: 20px; overflow: hidden; margin-bottom: 30px; }
+        .data-table th { background: var(--accent); color: #000; padding: 15px; text-align: left; }
+        .data-table td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #eee; }
+
+        /* PDF Summary Design - White Background (আপনার নতুন রিকোয়েস্ট অনুযায়ী) */
+        .pdf-box {
+            background: #ffffff; color: #000000; padding: 25px; border-radius: 25px; 
+            border: 2px solid var(--accent); box-shadow: 0 15px 35px rgba(0,0,0,0.5); margin-top: 20px;
+        }
+        .pdf-header { text-align: center; border-bottom: 2px solid var(--primary); margin-bottom: 15px; padding-bottom: 10px; }
+        .pdf-info { display: flex; flex-direction: column; gap: 10px; font-size: 15px; font-weight: bold; }
+        .pdf-row { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+        .logout-btn { position: absolute; right: 20px; top: 20px; background: rgba(211, 47, 47, 0.8); color: white; border: none; border-radius: 10px; padding: 8px 15px; font-size: 12px; font-weight: bold; cursor: pointer; }
+
+        #auth-screen, #main-app { display: none; }
+
+        /* প্রিন্ট করার সময় শুধু সামারি বক্সটি দেখাবে */
+        @media print {
+            body * { visibility: hidden; }
+            #pdfSummaryZone, #pdfSummaryZone * { visibility: visible; }
+            #pdfSummaryZone { position: absolute; left: 0; top: 0; width: 100%; border: none; box-shadow: none; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="auth-screen" style="display: block;">
+    <div class="header">
+        <div class="logo-area"><img id="loginLogo" src="https://via.placeholder.com/100" alt="Logo"></div>
+        <p class="foundation-name">Minar Go Expatriate Development Foundation</p>
+        <h2 class="user-name">মেম্বার পোর্টাল</h2>
+    </div>
+    <div class="container">
+        <div class="card" style="margin-top: 20px;">
+            <h3>লগইন করুন</h3>
+            <label>আপনার নাম নির্বাচন করুন:</label>
+            <select id="authName"></select>
+            <label>পাসওয়ার্ড দিন:</label>
+            <input type="password" id="authPass" placeholder="••••••••">
+            <button class="btn" onclick="handleAuth()">প্রবেশ করুন</button>
+        </div>
+    </div>
+</div>
+
+<div id="main-app">
+    <div class="header">
+        <button class="logout-btn" onclick="location.reload()">লগ আউট</button>
+        <div class="logo-area"><img id="mainLogo" src="https://via.placeholder.com/100" alt="Logo"></div>
+        <p class="foundation-name">Minar Go Expatriate Development Foundation</p>
+        <h2 class="user-name" id="welcomeName">মেম্বার নাম</h2>
+    </div>
+
+    <div class="container">
+        <div class="islamic-info">
+            <div class="info-card"><b>🕋 পরবর্তী হজ</b><span id="userHajjDate">...</span></div>
+            <div class="info-card"><b>🌙 পরবর্তী রমজান</b><span id="userRamadanDate">...</span></div>
+        </div>
+        <div class="today-bar">📅 আজ: <span id="uDay">...</span> | <span id="uDate">...</span></div>
+        <div id="noticeArea" class="emergency-notice"><b>📢 জরুরি বিজ্ঞপ্তি:</b><p id="noticeMessage" style="margin: 5px 0 0; font-size: 14px;"></p></div>
+        
+        <div class="card">
+            <h3>টাকা জমা ফরম</h3>
+            <label>নাম:</label><input type="text" id="mNameDisplay" readonly style="opacity: 0.7;">
+            <label>জমার খাত:</label><select id="mCategory"><option>প্রতি মাসের জমা</option><option>যাকাত</option><option>ফিতরা</option><option>বাড়ির কাজ</option></select>
+            <label>বর্তমান লোকেশন:</label><input type="text" id="mLocation" placeholder="যেমন: দুবাই, সৌদি আরব">
+            <label>টাকার পরিমাণ:</label><input type="number" id="mAmt" value="5000">
+            <label>তারিখ:</label><input type="date" id="mDate">
+            <button class="btn" onclick="submitData()">তথ্য সেভ করুন</button>
+        </div>
+
+        <h3 style="text-align: left; border: none;">জমার ইতিহাস</h3>
+        <table class="data-table">
+            <thead><tr><th>বিস্তারিত</th><th>টাকা</th><th>মুছুন</th></tr></thead>
+            <tbody id="userTableBody"></tbody>
+        </table>
+
+        <div id="pdfSummaryZone" class="pdf-box">
+            <div class="pdf-header">
+                <h2 style="margin: 0; color: #2d0056; font-size: 18px; font-weight: 800;">MINAR GO EXPATRIATE DEVELOPMENT FOUNDATION</h2>
+                <p style="margin: 5px 0; color: #555; font-size: 12px; font-weight: bold;">মেম্বার জমার রিপোর্ট (সারসংক্ষেপ)</p>
+            </div>
+            <div class="pdf-info">
+                <div class="pdf-row"><span>মেম্বার নাম:</span><span id="summNameVal" style="color: #2d0056;">-</span></div>
+                <div class="pdf-row"><span>মোট জমার পরিমাণ:</span><span id="summTotalVal" style="color: #d35400;">৳ ০.০০</span></div>
+                <div class="pdf-row"><span>রিপোর্ট তারিখ:</span><span id="summDateVal">২০/০৪/২০২৬</span></div>
+            </div>
+            <button class="btn no-print" onclick="window.print()" style="margin-top: 20px; background: var(--primary); color: #fff; font-size: 14px;">
+                📄 ডাউনলোড পিডিএফ (PDF SUMMARY)
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyB_xWr5iG6PcxjaNQmPoLLQKCjd64u8Cz0",
+        authDomain: "minar-go-officeial.firebaseapp.app",
+        databaseURL: "https://minar-go-officeial-default-rtdb.firebaseio.com",
+        projectId: "minar-go-officeial",
+        storageBucket: "minar-go-officeial.appspot.com",
+        messagingSenderId: "134678934111",
+        appId: "1:134678934111:web:4dbb017794b242269e61ea"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    let currentUser = "";
+
+    function updateAutoInfo() {
+        const today = new Date();
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        const days = ['রবিবার', 'সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার', 'শুক্রবার', 'শনিবার'];
+        document.getElementById('uDay').innerText = days[today.getDay()];
+        document.getElementById('uDate').innerText = today.toLocaleDateString('bn-BD', options);
+        document.getElementById('userHajjDate').innerText = "২৭ মে, ২০২৬";
+        document.getElementById('userRamadanDate').innerText = "১৮ ফেব্রুয়ারি, ২০২৬";
+    }
+    updateAutoInfo();
+
+    database.ref('member_list').on('value', snap => {
+        const select = document.getElementById('authName'); select.innerHTML = '<option value="">নাম সিলেক্ট করুন</option>';
+        const defaultMembers = ["Mr Dulal", "Mr Omar Faruk", "Mr Sulaiman badshah", "Mr Abdul qayum", "Mr Mohammed Jamshed", "Mr Milad", "Mr Ala uddin", "Mr Shahid", "Mr Shohag", "Mr Abul Hussain", "Mr Sakib", "Mr Ronnie", "Mr Jonye", "Mr Aqib", "Mr Salauddin"];
+        defaultMembers.forEach(m => { select.innerHTML += `<option>${m}</option>`; });
+    });
+
+    database.ref('admin_settings').on('value', snap => { if(snap.val() && snap.val().logo_data) { document.getElementById('loginLogo').src = snap.val().logo_data; document.getElementById('mainLogo').src = snap.val().logo_data; } });
+    database.ref('notice').on('value', snap => { if(snap.val()) { document.getElementById('noticeArea').style.display = 'block'; document.getElementById('noticeMessage').innerText = snap.val().text; } });
+
+    function handleAuth() {
+        const name = document.getElementById('authName').value;
+        const pass = document.getElementById('authPass').value;
+        if(!name || !pass) { alert("নাম এবং পাসওয়ার্ড দিন!"); return; }
+        database.ref('users/' + name.replace(/\./g, '_')).once('value', snap => {
+            if(snap.exists() && snap.val().password === pass) loginSuccess(name);
+            else if(!snap.exists()) database.ref('users/' + name.replace(/\./g, '_')).set({ password: pass }).then(() => loginSuccess(name));
+            else alert("ভুল পাসওয়ার্ড!");
+        });
+    }
+
+    function loginSuccess(name) {
+        currentUser = name;
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+        document.getElementById('welcomeName').innerText = name;
+        document.getElementById('mNameDisplay').value = name;
+        document.getElementById('mDate').value = new Date().toISOString().split('T')[0];
+        loadUserHistory();
+    }
+
+    function submitData() {
+        const amt = document.getElementById('mAmt').value;
+        const cat = document.getElementById('mCategory').value;
+        const loc = document.getElementById('mLocation').value || "N/A";
+        const dateRaw = document.getElementById('mDate').value;
+        if(!dateRaw) { alert("তারিখ দিন!"); return; }
+        const d = dateRaw.split('-');
+        database.ref('transactions/').push({ name: currentUser, amt: amt, category: cat, location: loc, date: `${d[2]}/${d[1]}/${d[0]}` }).then(() => alert("সেভ হয়েছে!"));
+    }
+
+    function loadUserHistory() {
+        database.ref('transactions/').on('value', snap => {
+            const tbody = document.getElementById('userTableBody'); 
+            tbody.innerHTML = "";
+            let total = 0; // মোট জমা হিসাব করার জন্য
+
+            snap.forEach(child => {
+                const d = child.val();
+                if(d.name === currentUser) {
+                    total += parseInt(d.amt);
+                    tbody.innerHTML += `<tr><td><strong>${d.category}</strong><br><small>${d.date}</small></td><td style="color:var(--accent); font-weight:bold;">৳${d.amt}</td><td style="text-align:center;"><span style="color:#ff5252; cursor:pointer;" onclick="deleteEntry('${child.key}')">🗑️</span></td></tr>`;
+                }
+            });
+
+            // সাদা বক্সে ডাটা আপডেট করার নতুন কোড
+            document.getElementById('summNameVal').innerText = currentUser;
+            document.getElementById('summTotalVal').innerText = "৳ " + total.toLocaleString('bn-BD');
+            document.getElementById('summDateVal').innerText = document.getElementById('uDate').innerText;
+        });
+    }
+
+    function deleteEntry(key) { if(confirm("ডিলিট করবেন?")) database.ref('transactions/' + key).remove(); }
+</script>
+</body>
+</html>
