@@ -16,7 +16,6 @@
             --gold-light: #fcf6ba;
             --gold-gradient: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             --gold-text: #f39c12;
-            --purple-glow: rgba(106, 13, 173, 0.2);
             --white: #ffffff; 
         }
         
@@ -27,16 +26,25 @@
             font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
         }
 
+        /* Desktop View Optimization */
+        @media (min-width: 768px) {
+            #main-app { 
+                max-width: 1000px !important; 
+                display: grid !important; 
+                grid-template-columns: 1fr 1fr; 
+                gap: 20px; 
+                padding: 40px !important; 
+            }
+            .app-header-new, .islamic-info, .today-info-bar, .total-fund-box, #noticeDisplay, .full-width-box, .desktop-full-center { 
+                grid-column: span 2; 
+            }
+        }
+
         .logout-corner { position: absolute; top: 20px; right: 20px; z-index: 100; }
         .logout-btn-style {
             background: rgba(255, 255, 255, 0.1); color: #ff4d4d; border: 1px solid rgba(255, 77, 77, 0.3);
             padding: 8px 15px; border-radius: 10px; font-size: 12px; font-weight: bold; cursor: pointer;
             backdrop-filter: blur(5px); transition: 0.3s;
-        }
-
-        @media (min-width: 768px) {
-            #main-app { max-width: 1000px !important; display: grid !important; grid-template-columns: 1fr 1fr; gap: 20px; padding: 40px !important; }
-            .app-header-new, .islamic-info, .today-info-bar, .total-fund-box, #noticeDisplay, .full-width-box, div[style*="padding: 20px 0"] { grid-column: span 2; }
         }
 
         @media print {
@@ -86,13 +94,13 @@
     </div>
 
     <div id="main-app" style="display:none;">
-        <div class="app-header-new" style="text-align: center; padding: 30px 0;">
+        <div class="app-header-new">
             <div class="logo-box-new">
                 <input type="file" accept="image/*" onchange="previewLogo(this)" style="position:absolute; inset:0; opacity:0; cursor:pointer;">
                 <img id="displayLogo" src="https://via.placeholder.com/150" alt="Logo">
             </div>
-            <div style="font-size: 24px; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">MINAR GO EXPATRIATE</div>
-            <div style="font-size: 10px; letter-spacing: 4px; color:#aaa;">Development Foundation</div>
+            <div style="font-size: 24px; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-align:center;">MINAR GO EXPATRIATE</div>
+            <div style="font-size: 10px; letter-spacing: 4px; color:#aaa; text-align:center;">Development Foundation</div>
         </div>
 
         <div class="islamic-info" style="display: flex; gap: 10px; margin-bottom: 10px;">
@@ -104,7 +112,7 @@
             আজকের দিন: <span id="currentDayName">...</span> | তারিখ: <span id="currentFullDate">...</span>
         </div>
 
-        <div id="noticeDisplay" style="background: rgba(243, 156, 18, 0.1); border-left: 5px solid var(--gold-text); padding: 12px; border-radius: 10px; margin-bottom: 20px; color: #ffcc00;">
+        <div id="noticeDisplay">
             📢 ঘোষণা: <span id="currentNotice">লোড হচ্ছে...</span>
         </div>
 
@@ -129,10 +137,12 @@
             <div class="member-manage-list" id="memberManageList"></div>
         </div>
 
-        <div class="glass-card">
+        <div class="glass-card desktop-full-center">
             <span class="drawing-label">Announcrm & Pin Change</span>
-            <input type="text" id="newNotice" class="custom-field" placeholder="নতুন ঘোষণা">
-            <input type="password" id="newPin" class="custom-field" placeholder="নতুন পিন কোড">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="text" id="newNotice" class="custom-field" style="flex: 1; min-width: 200px;" placeholder="নতুন ঘোষণা">
+                <input type="password" id="newPin" class="custom-field" style="flex: 1; min-width: 150px;" placeholder="নতুন পিন কোড">
+            </div>
             <button class="gold-btn" onclick="updateSettings()">UPDATE SETTINGS</button>
         </div>
 
@@ -153,7 +163,7 @@
             <button class="gold-btn no-print" style="background:#555; margin-top:15px; color: white;" onclick="window.print()">📄 PDF SUMMARY (GENERATE)</button>
         </div>
         
-        <div style="padding: 20px 0;"></div>
+        <div style="padding: 20px 0; grid-column: span 2;"></div>
     </div>
 </div>
 
