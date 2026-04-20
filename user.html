@@ -100,14 +100,16 @@
         .data-table th { background: var(--accent); color: #000; padding: 15px; text-align: left; }
         .data-table td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #eee; }
 
-        /* PDF Summary Design */
+        /* PDF Summary Design - Fixed Alignment */
         .pdf-box {
             background: #ffffff !important; color: #000000 !important; padding: 30px; border-radius: 25px; 
             border: 2px solid var(--primary); box-shadow: 0 15px 35px rgba(0,0,0,0.5); margin-top: 20px;
+            text-align: left;
         }
         .pdf-header { text-align: center; border-bottom: 3px solid var(--primary); margin-bottom: 20px; padding-bottom: 15px; }
         .pdf-info { display: flex; flex-direction: column; gap: 15px; font-size: 18px; font-weight: bold; color: #000 !important; }
-        .pdf-row { display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+        .pdf-row { display: flex; justify-content: flex-start; gap: 10px; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+        .pdf-row span:first-child { min-width: 150px; } /* Label এর জন্য ফিক্সড উইডথ যাতে বামে থাকে */
         .pdf-row span { color: #000 !important; }
 
         .logout-btn { position: absolute; right: 20px; top: 20px; background: rgba(211, 47, 47, 0.8); color: white; border: none; border-radius: 10px; padding: 8px 15px; font-size: 12px; font-weight: bold; cursor: pointer; }
@@ -121,8 +123,10 @@
                 position: absolute; left: 0; top: 0; width: 100%; 
                 background: white !important; color: black !important; 
                 border: none !important; box-shadow: none !important;
+                padding: 40px;
             }
             #pdfSummaryZone h2, #pdfSummaryZone p, #pdfSummaryZone span { color: black !important; }
+            .pdf-row { justify-content: flex-start !important; } /* প্রিন্টে বামে রাখা */
             .no-print { display: none !important; }
         }
     </style>
@@ -186,7 +190,7 @@
             </div>
             <div class="pdf-info">
                 <div class="pdf-row"><span>মেম্বার নাম:</span><span id="summNameVal" style="color: #000 !important;">-</span></div>
-                <div class="pdf-row"><span>মোট জমার পরিমাণ:</span><span id="summTotalVal" style="color: #000 !important;">৳ ০.০০</span></div>
+                <div class="pdf-row"><span>মোট জমা:</span><span id="summTotalVal" style="color: #000 !important;">৳ ০.০০</span></div>
                 <div class="pdf-row"><span>রিপোর্ট তারিখ:</span><span id="summDateVal" style="color: #000 !important;">-</span></div>
             </div>
             <button class="btn no-print" onclick="window.print()" style="margin-top: 25px; background: var(--primary); color: #fff; font-size: 16px;">
