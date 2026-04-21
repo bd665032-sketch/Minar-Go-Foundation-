@@ -75,16 +75,18 @@
         
         .drawing-label { color: var(--gold-text); font-weight: bold; font-size: 13px; text-transform: uppercase; margin-bottom: 8px; display: block; border-left: 3px solid var(--gold-text); padding-left: 8px; }
         .member-manage-list { height: 120px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 10px; margin-bottom: 10px; }
-        
-        /* PDF Summary Table Styles */
         .summary-container { background: #ffffff; border-radius: 20px; color: #333; padding: 20px; margin-top: 10px; }
         .table-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; border-bottom: 1px solid #eeeeee; }
 
+        /* প্রিন্ট বা পিডিএফ কন্ট্রোল */
         @media print {
-            .no-print, #login-screen, .logout-corner, .glass-card, .analytics-section, .app-header-new, .today-info-bar, .islamic-info, #noticeDisplay { display: none !important; }
+            /* মেইন ড্যাশবোর্ড অ্যামাউন্ট বক্স (.total-fund-box) এখন পিডিএফ-এ দেখাবে না */
+            .no-print, #login-screen, .logout-corner, .glass-card, .analytics-section, .app-header-new, .today-info-bar, .islamic-info, #noticeDisplay, .total-fund-box { 
+                display: none !important; 
+            }
             body { background: white !important; color: black !important; }
-            .summary-container { box-shadow: none; border: none; width: 100%; padding: 0; margin: 0; }
-            .table-row { color: black !important; border-bottom: 1px solid #ddd; }
+            .summary-container { box-shadow: none; width: 100%; padding: 0; }
+            /* টাকার এমাউন্ট শুধু নিচে দেখাবে */
         }
     </style>
 </head>
@@ -176,19 +178,17 @@
             <button class="gold-btn" onclick="updateSettings()">UPDATE SETTINGS</button>
         </div>
 
-        <div id="pdf-content" class="summary-container full-width-box">
+        <div id="pdf-content" class="summary-container">
             <div style="text-align: center; margin-bottom: 20px; color: #000;">
                 <h2 style="margin: 0; color: #6a0dad;">MINAR GO EXPATRIATE</h2>
                 <p style="margin: 0; font-size: 10px;">DEVELOPMENT FOUNDATION - SUMMARY REPORT</p>
             </div>
-            
             <div id="tableBody"></div>
-
-            <div style="display: flex; justify-content: space-between; padding: 15px; background: #f1f1f1; font-weight: bold; margin-top:15px; border-radius:10px; color: #000; border: 1px solid #ddd;">
-                <span>Total deposit amount:</span>
-                <span id="sumTotalPrint" style="font-size: 18px;">৳০</span>
-            </div>
             
+            <div style="display: flex; justify-content: space-between; padding: 15px; background: #f1f1f1; font-weight: bold; margin-top: 15px; border-radius: 10px; color: #000;">
+                <span>Total deposit amount:</span>
+                <span id="sumTotalPrint">৳০</span>
+            </div>
             <button class="gold-btn no-print" style="background:#333; margin-top:15px; color: white;" onclick="window.print()">📄 GENERATE PDF (BROWSER)</button>
         </div>
     </div>
