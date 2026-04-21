@@ -28,7 +28,6 @@
             font-family: 'Poppins', 'Segoe UI', sans-serif; color: var(--white);
         }
 
-        /* Analytics Card Style */
         .analytics-card {
             background: var(--purple-gradient);
             border-radius: 25px;
@@ -69,7 +68,6 @@
         select, .custom-field { width: 100%; padding: 14px; background: #0f081a; border: 1px solid #33224d; border-radius: 12px; color: white; margin-bottom: 12px; box-sizing: border-box; outline: none; }
         .gold-btn { width: 100%; padding: 16px; border: none; border-radius: 50px; background: var(--gold-gradient); color: #000; font-weight: bold; cursor: pointer; }
         
-        /* লোগোর নিচের বক্সগুলো ফিরিয়ে আনা হয়েছে */
         .info-card { flex: 1; background: rgba(106, 13, 173, 0.2); border: 1px solid rgba(191, 149, 63, 0.2); padding: 15px; border-radius: 15px; text-align: center; }
         .info-card b { display: block; color: var(--gold-text); font-size: 11px; margin-bottom: 5px; }
         .today-info-bar { width: 100%; background: rgba(106, 13, 173, 0.15); padding: 10px; border-radius: 12px; text-align: center; margin-bottom: 20px; border: 1px solid var(--gold-primary); box-sizing: border-box; }
@@ -77,13 +75,16 @@
         
         .drawing-label { color: var(--gold-text); font-weight: bold; font-size: 13px; text-transform: uppercase; margin-bottom: 8px; display: block; border-left: 3px solid var(--gold-text); padding-left: 8px; }
         .member-manage-list { height: 120px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 10px; margin-bottom: 10px; }
+        
+        /* PDF Summary Table Styles */
         .summary-container { background: #ffffff; border-radius: 20px; color: #333; padding: 20px; margin-top: 10px; }
         .table-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; border-bottom: 1px solid #eeeeee; }
 
         @media print {
             .no-print, #login-screen, .logout-corner, .glass-card, .analytics-section, .app-header-new, .today-info-bar, .islamic-info, #noticeDisplay { display: none !important; }
             body { background: white !important; color: black !important; }
-            .summary-container { box-shadow: none; width: 100%; padding: 0; }
+            .summary-container { box-shadow: none; border: none; width: 100%; padding: 0; margin: 0; }
+            .table-row { color: black !important; border-bottom: 1px solid #ddd; }
         }
     </style>
 </head>
@@ -175,16 +176,19 @@
             <button class="gold-btn" onclick="updateSettings()">UPDATE SETTINGS</button>
         </div>
 
-        <div id="pdf-content" class="summary-container">
+        <div id="pdf-content" class="summary-container full-width-box">
             <div style="text-align: center; margin-bottom: 20px; color: #000;">
                 <h2 style="margin: 0; color: #6a0dad;">MINAR GO EXPATRIATE</h2>
                 <p style="margin: 0; font-size: 10px;">DEVELOPMENT FOUNDATION - SUMMARY REPORT</p>
             </div>
+            
             <div id="tableBody"></div>
-            <div style="display: flex; justify-content: space-between; padding: 15px; background: #f1f1f1; font-weight: bold; margin-top: 10px; border-radius: 10px;">
-                <span>মোট জমা (Total):</span>
-                <span id="sumTotalPrint">৳০</span>
+
+            <div style="display: flex; justify-content: space-between; padding: 15px; background: #f1f1f1; font-weight: bold; margin-top:15px; border-radius:10px; color: #000; border: 1px solid #ddd;">
+                <span>Total deposit amount:</span>
+                <span id="sumTotalPrint" style="font-size: 18px;">৳০</span>
             </div>
+            
             <button class="gold-btn no-print" style="background:#333; margin-top:15px; color: white;" onclick="window.print()">📄 GENERATE PDF (BROWSER)</button>
         </div>
     </div>
