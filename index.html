@@ -38,6 +38,19 @@
         .analytics-value { font-size: 28px; font-weight: 700; margin: 5px 0; }
         .chart-container { width: 100%; height: 120px; margin-top: 10px; position: relative; }
 
+        .category-stats {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-item { display: flex; align-items: center; margin-bottom: 12px; }
+        .stat-bar-bg { flex: 1; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 0 15px; position: relative; overflow: hidden; }
+        .stat-bar-fill { height: 100%; border-radius: 10px; transition: width 1s ease-in-out; }
+        .stat-label { font-size: 13px; width: 80px; }
+        .stat-percent { font-size: 12px; width: 35px; text-align: right; }
+
         #main-app { width: 100%; max-width: 800px; padding: 20px; margin: 0 auto; box-sizing: border-box; }
         @media (min-width: 768px) {
             #main-app { max-width: 1000px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 40px; }
@@ -65,12 +78,15 @@
         .summary-container { background: #ffffff; border-radius: 20px; color: #333; padding: 20px; margin-top: 10px; }
         .table-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; border-bottom: 1px solid #eeeeee; }
 
+        /* প্রিন্ট বা পিডিএফ কন্ট্রোল */
         @media print {
+            /* মেইন ড্যাশবোর্ড অ্যামাউন্ট বক্স (.total-fund-box) এখন পিডিএফ-এ দেখাবে না */
             .no-print, #login-screen, .logout-corner, .glass-card, .analytics-section, .app-header-new, .today-info-bar, .islamic-info, #noticeDisplay, .total-fund-box { 
                 display: none !important; 
             }
             body { background: white !important; color: black !important; }
             .summary-container { box-shadow: none; width: 100%; padding: 0; }
+            /* টাকার এমাউন্ট শুধু নিচে দেখাবে */
         }
     </style>
 </head>
@@ -104,8 +120,8 @@
         </div>
 
         <div class="islamic-info" style="display: flex; gap: 10px; margin-bottom: 10px;">
-            <div class="info-card"><b>🕋 হজ (সম্ভাব্য)</b><span style="font-size:12px;">২৭ মে, ২০২৬</span></div>
-            <div class="info-card"><b>🌙 রমজান (সম্ভাব্য)</b><span style="font-size:12px;">১৮ ফেব্রুয়ারি, ২০২৬</span></div>
+            <div class="info-card"><b>🕋 হজ (সম্ভাব্য)</b><span style="font-size:12px;">২৭ মে, ২০২৭</span></div>
+            <div class="info-card"><b>🌙 রমজান (সম্ভাব্য)</b><span style="font-size:12px;">১৮ ফেব্রুয়ারি, ২০২৭</span></div>
         </div>
 
         <div class="today-info-bar">
@@ -132,7 +148,12 @@
                     <canvas id="growthChart"></canvas>
                 </div>
             </div>
+
+            <div class="category-stats">
+                <span class="drawing-label">Distribution Stats</span>
+                <div id="categoryBars"></div>
             </div>
+        </div>
 
         <div class="glass-card blue-themed-card no-print">
             <span class="drawing-label">জমা এন্ট্রি (Entry)</span>
@@ -148,14 +169,6 @@
             <input type="text" id="newMemberName" class="custom-field" placeholder="মেম্বারের নাম">
             <button class="gold-btn" style="background: #27ae60; color: white; margin-bottom:15px;" onclick="addNewMember()">ADD NEW MEMBER</button>
             <div class="member-manage-list" id="memberManageList"></div>
-        </div>
-
-        <div class="glass-card blue-themed-card no-print">
-            <span class="drawing-label">Digital Document Vault</span>
-            <input type="text" id="docTitle" class="custom-field" placeholder="ডকুমেন্টের নাম (যেমন: মেমো)">
-            <input type="file" id="docFile" class="custom-field" accept="image/*, .pdf">
-            <button class="gold-btn" style="background: #2575fc; color: white; margin-bottom:15px;" onclick="uploadDocument()">UPLOAD DOCUMENT</button>
-            <div class="member-manage-list" id="documentList" style="height: 150px;"></div>
         </div>
 
         <div class="glass-card blue-themed-card no-print">
@@ -264,12 +277,14 @@
     database.ref('transactions/').on('value', snap => {
         const tableBody = document.getElementById('tableBody'); tableBody.innerHTML = "";
         let total = 0;
+        let cats = { "প্রতি মাসের জমা": 0, "যাকাত": 0, "ফিতরা": 0, "বাড়ির কাজ": 0 };
         let chartData = [];
 
         snap.forEach(child => {
             const d = child.val();
             const amt = parseFloat(d.amt) || 0;
             total += amt;
+            if(cats[d.category] !== undefined) cats[d.category] += amt;
             chartData.push(amt);
             tableBody.innerHTML += `<div class="table-row"><div><strong>${d.name}</strong><br><small>${d.category} | ${d.date || ''}</small></div><div style="font-weight:bold;">৳${amt.toLocaleString('bn-BD')}</div><div class="no-print"><span onclick="database.ref('transactions/${child.key}').remove()" style="color:red; cursor:pointer; margin-left:10px;">🗑️</span></div></div>`;
         });
@@ -278,6 +293,15 @@
         document.getElementById('sumTotalPrint').innerText = "৳" + total.toLocaleString('bn-BD');
         document.getElementById('growthValue').innerText = "৳" + total.toLocaleString('bn-BD');
 
+        const barContainer = document.getElementById('categoryBars');
+        barContainer.innerHTML = "";
+        const colors = ["#4CC9F0", "#FFD60A", "#B5179E", "#4895EF"];
+        let idx = 0;
+        for(let c in cats) {
+            let p = total > 0 ? (cats[c] / total * 100).toFixed(1) : 0;
+            barContainer.innerHTML += `<div class="stat-item"><span class="stat-label" style="font-size:11px;">${c.split(' ')[0]}</span><div class="stat-bar-bg"><div class="stat-bar-fill" style="width:${p}%; background:${colors[idx%4]}"></div></div><span class="stat-percent">${p}%</span></div>`;
+            idx++;
+        }
         if(chartData.length > 0) initChart(chartData.slice(-6));
     });
 
@@ -315,39 +339,10 @@
         }
     }
 
-    // নতুন ডকুমেন্ট ভল্ট ফাংশন
-    function uploadDocument() {
-        const title = document.getElementById('docTitle').value;
-        const fileInput = document.getElementById('docFile');
-        if (!title || !fileInput.files[0]) { alert("নাম এবং ফাইল দিন!"); return; }
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            database.ref('documents/').push({
-                name: title,
-                file: e.target.result,
-                date: new Date().toLocaleDateString('bn-BD')
-            }).then(() => {
-                alert("ডকুমেন্ট সেভ হয়েছে!");
-                document.getElementById('docTitle').value = "";
-                document.getElementById('docFile').value = "";
-            });
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-    }
-
-    database.ref('documents/').on('value', snap => {
-        const listDiv = document.getElementById('documentList');
-        listDiv.innerHTML = "";
-        snap.forEach(child => {
-            const doc = child.val();
-            listDiv.innerHTML += `<div style="display:flex; justify-content:space-between; padding:5px; border-bottom:1px solid #33224d; font-size:12px;">
-                <span>${doc.name}</span>
-                <span>
-                    <a href="${doc.file}" download="${doc.name}" style="text-decoration:none;">📥</a>
-                    <span onclick="database.ref('documents/${child.key}').remove()" style="color:red; cursor:pointer; margin-left:10px;">🗑️</span>
-                </span>
-            </div>`;
-        });
-    });
-
     database.ref('admin_settings/logo_data').on('value', snap => { if(snap.val()) document.getElementById('displayLogo').src = snap.val(); });
+    database.ref('notice/').on('value', snap => { if(snap.val()) document.getElementById('currentNotice').innerText = snap.val().text; });
+    document.getElementById('mDate').value = new Date().toISOString().split('T')[0];
+    function logOut() { location.reload(); }
+</script>
+</body>
+</html>
